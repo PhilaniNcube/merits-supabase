@@ -1,17 +1,16 @@
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import '../styles/globals.css';
-import { QueryClient, QueryClientProvider } from 'react-query';
+// _app.jsx
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 
-const queryClient = new QueryClient();
+export default function MyApp({ Component, pageProps }) {
+  const [queryClient] = React.useState(() => new QueryClient());
 
-function MyApp({ Component, pageProps }) {
   return (
-    <Fragment>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
         <Component {...pageProps} />
-      </QueryClientProvider>
-    </Fragment>
+      </Hydrate>
+    </QueryClientProvider>
   );
 }
-
-export default MyApp;
