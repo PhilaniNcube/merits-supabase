@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 function Sidebar({ children }) {
   const router = useRouter();
 
-  const user = { name: 'Philani', email: 'ncbphi001@gmail.com' };
+  const user = null;
 
   return (
     <div className="flex text-white h-screen">
