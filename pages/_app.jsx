@@ -19,7 +19,7 @@ export default function MyApp({ Component, pageProps }) {
             <Component session={session} supabase={supabase} {...pageProps} />
           </Sidebar>
         </Hydrate>
-        {/** <ReactQueryDevtools /> */}
+        <ReactQueryDevtools />
       </QueryClientProvider>
     </Fragment>
   );

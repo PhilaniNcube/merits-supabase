@@ -2,11 +2,12 @@
 import React, { Fragment } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import useSupabase from '../utils/supabase';
 
 function Sidebar({ children }) {
   const router = useRouter();
 
-  const user = null;
+  const { session, supabase, user, signOut } = useSupabase();
 
   return (
     <div className="flex text-white h-screen">
@@ -45,13 +46,16 @@ function Sidebar({ children }) {
         </div>
 
         <div className="py-1 text-center space-y-3 flex flex-col rounded">
-          {user ? (
+          {!!user ? (
             <Fragment>
               <Link href="/account">
                 <a className="text-base bg-gray-900 px-4 py-1">My Account</a>
               </Link>
 
-              <button className="text-base bg-gray-900 px-4 py-1">
+              <button
+                onClick={() => signOut()}
+                className="text-base bg-gray-900 px-4 py-1"
+              >
                 Logout
               </button>
             </Fragment>
