@@ -1,11 +1,11 @@
 import React, { Fragment, useMemo, useState } from 'react';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
-import { Listbox, Transition } from '@headlessui/react';
 import { getSchools } from '../../../lib/getSchools';
-import useSupabase, { supabase } from '../../../utils/supabase';
+import { supabase } from '../../../utils/supabase';
+import { useUser } from '../../../context/AuthContext';
 
 const AddEvent = () => {
-  const { session, user, signOut } = useSupabase();
+  const { user } = useUser();
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -30,21 +30,34 @@ const AddEvent = () => {
     const fileExt = file.name.split('.').pop();
     const fileName = `${Math.random()}.${fileExt}`;
 
-    let upload = await supabase.storage
-      .from('images')
+    const { data, error } = await supabase.storage
+      .from('merits')
       .upload(`${fileName}`, file);
 
-    console.log(upload);
+    console.log({ data, error });
 
-    const fileUrl = upload.data.Key;
+    const fileUrl = data.Key;
 
     setImage(
-      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${fileUrl}`,
+      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${fileUrl}`,
     );
   };
 
+  console.log({ school, user });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log({
+      name: name,
+      description: description,
+      date: date,
+      time: time,
+      school: school,
+      organiser: user.id,
+      venue: venue,
+      image: image,
+    });
 
     const { data, error } = await supabase.from('event').insert([
       {
@@ -59,7 +72,7 @@ const AddEvent = () => {
       },
     ]);
 
-    console.log({ data });
+    console.log({ data, error });
   };
 
   return (
@@ -180,7 +193,7 @@ const AddEvent = () => {
                     onChange={(e) => setSchool(e.target.value)}
                     className="text-xs focus:outline-none font-medium leading-3 text-gray-600 dark:text-gray-100 bg-transparent w-full"
                   >
-                    <option disabled selected>
+                    <option disabled defaultValue>
                       Select a school
                     </option>
                     {schools.map((school) => {
@@ -209,7 +222,6 @@ const AddEvent = () => {
                   className="form-control m-0focus:text-gray-700 block w-full rounded-md  px-3 py-2 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:outline-none bg-gray-50 dark:bg-gray-700"
                   onChange={handleFileUpload}
                   type="file"
-                  accept="image/*"
                   name="image"
                   id="image"
                 />

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { Suspense, useMemo, useState } from 'react';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { getSchools } from '../lib/getSchools';
 

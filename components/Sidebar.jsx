@@ -1,13 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { Fragment } from 'react';
+import React, { Suspense, Fragment } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import useSupabase from '../utils/supabase';
+import { useUser } from '../context/AuthContext';
 
 function Sidebar({ children }) {
   const router = useRouter();
 
-  const { session, supabase, user, signOut } = useSupabase();
+  const { user, signOut } = useUser();
 
   return (
     <div className="flex text-white h-screen">
@@ -48,21 +49,31 @@ function Sidebar({ children }) {
         <div className="py-1 text-center space-y-3 flex flex-col rounded">
           {!!user ? (
             <Fragment>
-              <Link href="/account">
-                <a className="text-base bg-gray-900 px-4 py-1">My Account</a>
-              </Link>
+              <Suspense
+                fallback={
+                  <Link href="/account">
+                    <a className="text-base px-2">My Account</a>
+                  </Link>
+                }
+              >
+                <Link href="/account">
+                  <a className="text-base px-2">My Account</a>
+                </Link>
+              </Suspense>
 
               <button
                 onClick={() => signOut()}
-                className="text-base bg-gray-900 px-4 py-1"
+                className="text-base bg-gray-800 px-4 py-1"
               >
                 Logout
               </button>
             </Fragment>
           ) : (
-            <Link href="/sign-in">
-              <a className="text-base">Sign In</a>
-            </Link>
+            <Fragment>
+              <Link href="/sign-in">
+                <a className="text-base">Sign In</a>
+              </Link>
+            </Fragment>
           )}
         </div>
       </div>
