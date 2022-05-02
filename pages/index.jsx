@@ -30,7 +30,7 @@ const Home = ({ message = 'Please Sign In' }) => {
 
   return (
     <Fragment>
-      <Suspense fallback={<Loading />}>
+      <Suspense>
         <EventsFeed events={eventQuery.data} />
       </Suspense>
     </Fragment>
