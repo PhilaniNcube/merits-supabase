@@ -2,7 +2,7 @@
 import React, { Suspense, Fragment } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import useSupabase from '../utils/supabase';
+
 import { useUser } from '../context/AuthContext';
 
 function Sidebar({ children }) {
@@ -45,21 +45,12 @@ function Sidebar({ children }) {
             </a>
           </Link>
         </div>
-
         <div className="py-1 text-center space-y-3 flex flex-col rounded">
-          {!!user ? (
+          {user ? (
             <Fragment>
-              <Suspense
-                fallback={
-                  <Link href="/account">
-                    <a className="text-base px-2">My Account</a>
-                  </Link>
-                }
-              >
-                <Link href="/account">
-                  <a className="text-base px-2">My Account</a>
-                </Link>
-              </Suspense>
+              <Link href="/account">
+                <a className="text-base bg-gray-800 px-4">My Account</a>
+              </Link>
 
               <button
                 onClick={() => signOut()}
@@ -69,11 +60,9 @@ function Sidebar({ children }) {
               </button>
             </Fragment>
           ) : (
-            <Fragment>
-              <Link href="/sign-in">
-                <a className="text-base">Sign In</a>
-              </Link>
-            </Fragment>
+            <Link href="/sign-in">
+              <a className="text-base bg-gray-800 px-2">Sign In</a>
+            </Link>
           )}
         </div>
       </div>

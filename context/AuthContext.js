@@ -21,6 +21,8 @@ const Provider = ({ children }) => {
     let { user, error } = supabase.auth.signIn({
       email,
     });
+
+    console.log(user);
   };
 
   const signUp = async (email, password) => {

@@ -1,7 +1,9 @@
 import React from 'react';
 
-const events = () => {
-  return <div>events</div>;
+const Events = () => {
+  return <div>Events</div>;
 };
 
-export default events;
+Events.headerTitle = 'Latest Events';
+
+export default Events;

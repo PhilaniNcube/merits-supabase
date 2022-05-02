@@ -1,98 +1,60 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable @next/next/no-img-element */
-import Head from 'next/head';
-import Link from 'next/link';
-import { Fragment, useEffect, useMemo, useState } from 'react';
-import { dehydrate, QueryClient, useQuery } from 'react-query';
-import { getEvents } from '../lib/getEvents';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import React, { Fragment, Suspense, useState } from 'react';
+import { useRouter } from 'next/router';
+import SignIn from '../components/SignIn';
 import { useUser } from '../context/AuthContext';
+import { supabase } from '../utils/supabase';
+import cookie from 'cookie';
+import Loading from '../components/Loading';
 import getProfile from '../lib/getProfile';
+import { getEvents } from '../lib/getEvents';
+import { dehydrate, QueryClient, useQuery } from 'react-query';
+import { getSchools } from '../lib/getSchools';
+import Header from '../components/Header';
+import EventsFeed from '../components/Events/EventsFeed';
+import EventSkeleton from '../components/Loaders/EventSkeleton';
 
-export default function Home() {
-  const { user } = useUser();
+const Home = ({ message = 'Please Sign In' }) => {
+  const { user, signIn } = useUser();
 
-  const [filter, setFilter] = useState('');
+  const router = useRouter();
 
-  const { data: profile } = useQuery('profile', getProfile, {
+  const eventQuery = useQuery('events', getEvents, {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 
-  const { data: events } = useQuery('events', getEvents, {
+  const schoolsQuery = useQuery('schools', getSchools, {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
-
-  const filteredEvents = useMemo(
-    () =>
-      events.filter((event) =>
-        event.name.toLowerCase().includes(filter.toLowerCase()),
-      ),
-    [filter, events],
-  );
 
   return (
-    <div className="flex flex-col h-full px-2  md:px-12">
-      <div className="mt-4 flex space-x-4">
-        <main className="flex-1 rounded-md bg-slate-700 h-full">
-          {filteredEvents.map((event) => (
-            <div
-              className="mb-6 rounded-lg overflow-hidden flex bg-slate-200"
-              key={event.id}
-            >
-              <img
-                src={event.image}
-                alt={event.name}
-                className="w-1/2 object-cover"
-              />
-              <div className="text-slate-800 w-full flex flex-col flex-1 p-3">
-                <h2 className=" underline font-medium text-lg">{event.name}</h2>
-                <h2 className="font-bold text-base">
-                  Hosted by: {event.school.name}
-                </h2>
-                <div className="flex space-x-2">
-                  <p className="text-sm text-gray-700 mt-2">
-                    Date: {new Date(event.date).toDateString('en-ZA')}
-                  </p>
-                  <p className="text-sm text-gray-400 mt-2">
-                    Time: {event.time}
-                  </p>
-                </div>
-
-                <p className="text-sm mt-2">{event.description}</p>
-                <div className="mt-2 flex space-x-3">
-                  <Link href={`/events/${event.id}`} passHref>
-                    <button className="px-3 text-xs rounded shadow-md hover:shadow-sm py-1 bg-sky-700 text-white">
-                      View Event
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </main>
-        <aside className="w-2/6 rounded-md bg-slate-600 h-[90vh] p-4">
-          <h2 className="text-lg font-bold">
-            My School: {profile.school.name}
-          </h2>
-          <div className=""></div>
-        </aside>
-      </div>
-    </div>
+    <Fragment>
+      <Suspense fallback={<Loading />}>
+        <EventsFeed events={eventQuery.data} />
+      </Suspense>
+    </Fragment>
   );
-}
+};
 
-export const getServerSideProps = async () => {
+Home.headerTitle = 'Home';
+
+export default Home;
+
+export async function getServerSideProps({ req }) {
+  const { user } = await supabase.auth.api.getUserByCookie(req);
+  const token = cookie.parse(req.headers.cookie)['sb-access-token'];
+
+  supabase.auth.session = () => ({ access_token: token });
+
   const queryClient = await new QueryClient();
 
+  await queryClient.prefetchQuery('schools', getSchools);
   await queryClient.prefetchQuery('events', getEvents);
-  await queryClient.prefetchQuery('profile', getProfile);
 
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
     },
   };
-};
+}
