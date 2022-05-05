@@ -1,15 +1,13 @@
 import React, { Fragment, Suspense } from 'react';
-import { useRouter } from 'next/router';
 import { useUser } from '../context/AuthContext';
 import { getEvents } from '../lib/getEvents';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { getSchools } from '../lib/getSchools';
 import EventsFeed from '../components/Events/EventsFeed';
+import Loading from '../components/Loading';
 
-const Home = ({ message = 'Please Sign In' }) => {
+const Home = () => {
   const { user, signIn } = useUser();
-
-  const router = useRouter();
 
   const eventQuery = useQuery('events', getEvents, {
     refetchOnMount: false,
@@ -23,7 +21,7 @@ const Home = ({ message = 'Please Sign In' }) => {
 
   return (
     <Fragment>
-      <Suspense>
+      <Suspense fallback={<Loading />}>
         <EventsFeed events={eventQuery.data} />
       </Suspense>
     </Fragment>

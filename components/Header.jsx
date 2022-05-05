@@ -1,16 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 import { LoginIcon, LogoutIcon } from '@heroicons/react/outline';
-import React, { Fragment, Suspense, useState } from 'react';
+import React, { Fragment, Suspense, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useUser } from '../context/AuthContext';
 import SignIn from './SignIn';
 import Loading from './Loading';
 
 const Header = ({ title }) => {
+  const [loggedIn, setLoggedIn] = useState(false);
   const { user, signOut, signIn } = useUser();
-  const [show, setShow] = useState(false);
 
-  const router = useRouter();
+  useEffect(() => {
+    setLoggedIn(!!user);
+  }, [user]);
+
+  const [show, setShow] = useState(false);
 
   return (
     <Fragment>
@@ -24,13 +28,17 @@ const Header = ({ title }) => {
           />
           <p className="ml-6 text-lg font-extrabold">{title}</p>
         </div>
-        <div className="flex items-center">
-          <Suspense>
-            {user ? (
-              <LogoutIcon
-                onClick={() => signOut()}
-                className="h-7 w-7 text-red-500"
-              />
+        <Suspense>
+          <div className="flex space-x-2 items-center">
+            {loggedIn ? (
+              <div className="flex space-x-2 items-center">
+                <Suspense fallback={<Loading />}>
+                  <LogoutIcon
+                    onClick={() => signOut()}
+                    className="h-7 w-7 text-red-500"
+                  />
+                </Suspense>
+              </div>
             ) : (
               <Suspense>
                 <button
@@ -44,8 +52,8 @@ const Header = ({ title }) => {
                 </button>
               </Suspense>
             )}
-          </Suspense>
-        </div>
+          </div>
+        </Suspense>
       </header>
     </Fragment>
   );

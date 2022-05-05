@@ -1,4 +1,10 @@
-import { createContext, useEffect, useState, useContext } from 'react';
+import {
+  createContext,
+  useEffect,
+  useState,
+  useContext,
+  Suspense,
+} from 'react';
 import { useRouter } from 'next/router';
 import { supabase } from '../utils/supabase';
 import axios from 'axios';
@@ -58,7 +64,11 @@ const Provider = ({ children }) => {
     signUp,
   };
 
-  return <Context.Provider value={exposed}>{children}</Context.Provider>;
+  return (
+    <Suspense>
+      <Context.Provider value={exposed}>{children}</Context.Provider>
+    </Suspense>
+  );
 };
 
 export const useUser = () => useContext(Context);
