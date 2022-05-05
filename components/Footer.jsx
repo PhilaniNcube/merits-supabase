@@ -6,8 +6,6 @@ import { CogIcon, HomeIcon, MailIcon, PlayIcon } from '@heroicons/react/solid';
 const Footer = () => {
   const router = useRouter();
 
-  console.log(router.route);
-
   return (
     <footer className="flex border-t bg-slate-200">
       <Link href="/">
