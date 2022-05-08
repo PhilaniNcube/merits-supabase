@@ -47,7 +47,7 @@ const EventId = ({ event }) => {
           </svg>
         </span>
         <p className="font-medium text-sm text-slate-600">
-          Hosted By: {event.school.name}
+          Hosted By: {event.school_id.name}
         </p>
         <span className="flex mt-2 space-x-4 text-xs text-slate-800">
           <span className="bg-green-300 rounded-full px-3 py-1">
@@ -71,7 +71,7 @@ export default EventId;
 export async function getServerSideProps({ req, params: { id } }) {
   let { data: event, error } = await supabase
     .from('event')
-    .select('*, school(id, name)')
+    .select('*, school_id(id, name, city, streetAddress), organiser(*)')
     .eq('id', id)
     .single();
 

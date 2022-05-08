@@ -17,6 +17,9 @@ const Profile = () => {
 
   const [school, setSchool] = useState('');
   const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [grade, setGrade] = useState(10);
 
   const [schools, setSchools] = useState([]);
 
