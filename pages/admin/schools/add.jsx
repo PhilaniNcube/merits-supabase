@@ -1,12 +1,17 @@
 import React, { Fragment, useState } from 'react';
 import useSupabase from '../../../utils/supabase';
+import { useRouter } from 'next/router';
 
 const Add = () => {
   const { supabase } = useSupabase();
 
+  const router = useRouter();
+
   const [name, setName] = useState('');
   const [streetAddress, setStreetAddress] = useState('');
   const [city, setCity] = useState('');
+
+  const [loadings, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,6 +21,17 @@ const Add = () => {
       .insert([{ name: name, streetAddress: streetAddress, city: city }]);
 
     console.log({ data, error });
+
+    if (error) {
+      alert(error.message);
+    }
+
+    if (data) {
+      setName('');
+      setStreetAddress('');
+      setCity('');
+      router.push('/admin/schools/add');
+    }
   };
 
   return (

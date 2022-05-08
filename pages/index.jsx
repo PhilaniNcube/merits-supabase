@@ -3,8 +3,10 @@ import { useUser } from '../context/AuthContext';
 import { getEvents } from '../lib/getEvents';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { getSchools } from '../lib/getSchools';
-import EventsFeed from '../components/Events/EventsFeed';
 import Loading from '../components/Loading';
+import { format } from 'date-fns';
+
+const EventsFeed = React.lazy(() => import('../components/Events/EventsFeed'));
 
 const Home = () => {
   const { user, signIn } = useUser();

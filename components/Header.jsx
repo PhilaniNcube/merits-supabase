@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { LoginIcon, LogoutIcon } from '@heroicons/react/outline';
 import React, { Fragment, Suspense, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useUser } from '../context/AuthContext';
 import SignIn from './SignIn';
@@ -50,6 +51,17 @@ const Header = ({ title }) => {
                     <LoginIcon className="pl-1 h-6 w-6 text-sky-500" />
                   </span>
                 </button>
+                <Link href="/register" passHref>
+                  <button
+                    onClick={() => setShow(true)}
+                    className="flex items-center"
+                  >
+                    <span className="font-medium text-gray-700">Register</span>
+                    <span>
+                      <LoginIcon className="pl-1 h-6 w-6 text-sky-500" />
+                    </span>
+                  </button>
+                </Link>
               </Suspense>
             )}
           </div>

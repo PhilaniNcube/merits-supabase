@@ -16,14 +16,18 @@ const AddEvent = () => {
   const [venue, setVenue] = useState('');
   const [image, setImage] = useState('');
 
+  const [loading, setLoading] = useState(false);
+
   const { data: schools } = useQuery('schools', getSchools, {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 
   const handleFileUpload = async (e) => {
+    setLoading(true);
     if (!e.target.files || e.target.files.length === 0) {
-      throw new Error('You must select an image to upload.');
+      alert('You must select an image to upload.');
+      return;
     }
 
     const file = e.target.files[0];
@@ -31,7 +35,7 @@ const AddEvent = () => {
     const fileName = `${Math.random()}.${fileExt}`;
 
     const { data, error } = await supabase.storage
-      .from('merits')
+      .from('images')
       .upload(`${fileName}`, file);
 
     console.log({ data, error });
@@ -41,23 +45,14 @@ const AddEvent = () => {
     setImage(
       `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${fileUrl}`,
     );
+    setLoading(false);
   };
 
   console.log({ school, user });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log({
-      name: name,
-      description: description,
-      date: date,
-      time: time,
-      school: school,
-      organiser: user.id,
-      venue: venue,
-      image: image,
-    });
+    setLoading(true);
 
     const { data, error } = await supabase.from('event').insert([
       {
@@ -65,14 +60,29 @@ const AddEvent = () => {
         description: description,
         date: date,
         time: time,
-        school: school,
-        organiser: user.id,
+        school_id: school,
+
         venue: venue,
         image: image,
       },
     ]);
 
     console.log({ data, error });
+
+    if (error) {
+      alert('There was an error saving the event: ' + `${error.message}`);
+    }
+
+    if (data) {
+      setName('');
+      setDescription('');
+      setVenue('');
+      setTime('');
+      setDate('');
+      setSchool('');
+      setImage('');
+      setLoading(false);
+    }
   };
 
   return (
@@ -178,7 +188,7 @@ const AddEvent = () => {
                 />
               </div>
 
-              <div>
+              <div className="my-2">
                 <label
                   htmlFor="school"
                   className="text-xs font-semibold leading-3 text-gray-800 dark:text-gray-100"
@@ -193,9 +203,7 @@ const AddEvent = () => {
                     onChange={(e) => setSchool(e.target.value)}
                     className="text-xs focus:outline-none font-medium leading-3 text-gray-600 dark:text-gray-100 bg-transparent w-full"
                   >
-                    <option disabled defaultValue>
-                      Select a school
-                    </option>
+                    <option disabled>Select a school</option>
                     {schools.map((school) => {
                       return (
                         <option
@@ -211,12 +219,12 @@ const AddEvent = () => {
                 </div>
               </div>
 
-              <div className="mb-3 w-full">
+              <div className="my-3 w-full">
                 <label
                   htmlFor="image"
-                  className="pb-2 text-sm font-bold text-gray-800"
+                  className="pb-2 text-xs max-w-[40ch] font-medium text-gray-50"
                 >
-                  Image Upload
+                  {image === '' ? `Upload Image ` : `Image Uploaded`}
                 </label>
                 <input
                   className="form-control m-0focus:text-gray-700 block w-full rounded-md  px-3 py-2 text-base font-normal text-gray-700 transition ease-in-out focus:border-blue-600 focus:bg-white focus:outline-none bg-gray-50 dark:bg-gray-700"
@@ -228,10 +236,12 @@ const AddEvent = () => {
               </div>
 
               <button
+                disabled={loading}
+                type="submit"
                 id="submit"
                 className="mt-5 focus:outline-none px-5 py-3 bg-sky-700 dark:bg-sky-600 hover:bg-opacity-80 rounded text-xs font-semibold leading-3 text-gray-100"
               >
-                Submit
+                {loading ? 'Loading..' : 'Submit'}
               </button>
             </form>
           </div>

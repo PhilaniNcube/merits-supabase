@@ -23,21 +23,35 @@ const Provider = ({ children }) => {
     router.push('/');
   };
 
-  const signIn = (email) => {
+  const signIn = (email, password) => {
     let { user, error } = supabase.auth.signIn({
-      email,
-    });
-
-    console.log(user);
-  };
-
-  const signUp = async (email, password) => {
-    let { user, error } = await supabase.auth.signUp({
       email,
       password,
     });
 
+    if (error) {
+      alert(error.message);
+    }
+
+    router.push('/');
+  };
+
+  const signUp = async (email, password, username, schoolId) => {
+    let { user, error } = await supabase.auth.signUp({
+      email,
+      password,
+      data: {
+        username,
+        school_id: schoolId,
+      },
+    });
+
     console.log(user, error);
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
 
     if (user) {
       router.push('/');

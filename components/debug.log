@@ -1,0 +1,6 @@
+[0507/205234.090:ERROR:registration_protocol_win.cc(111)] WaitNamedPipe: The system cannot find the file specified. (0x2)
+[0507/205234.093:ERROR:registration_protocol_win.cc(111)] WaitNamedPipe: The system cannot find the file specified. (0x2)
+[0508/123402.549:ERROR:registration_protocol_win.cc(106)] CreateFile: The system cannot find the file specified. (0x2)
+[0508/123404.042:ERROR:registration_protocol_win.cc(106)] CreateFile: The system cannot find the file specified. (0x2)
+[0508/125647.316:ERROR:registration_protocol_win.cc(106)] CreateFile: The system cannot find the file specified. (0x2)
+[0508/125647.767:ERROR:registration_protocol_win.cc(106)] CreateFile: The system cannot find the file specified. (0x2)

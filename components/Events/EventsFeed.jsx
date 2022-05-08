@@ -18,8 +18,6 @@ import { supabase } from '../../utils/supabase';
 import Loading from '../Loading';
 
 const EventsFeed = ({ events }) => {
-  console.log(events);
-
   const { user } = useUser();
 
   return (

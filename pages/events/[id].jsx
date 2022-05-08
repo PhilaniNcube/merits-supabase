@@ -7,18 +7,10 @@ import { useUser } from '../../context/AuthContext';
 import getLikes from '../../lib/getLikes';
 import { supabase } from '../../utils/supabase';
 
-const EventId = ({ likes, event }) => {
-  console.log({ event, likes });
+const EventId = ({ event }) => {
+  console.log({ event });
 
   const { user } = useUser();
-
-  const mutation = useMutation(async () => {
-    const { data, error } = await supabase
-      .from('like')
-      .insert([{ user: user.id, event: event.id }]);
-
-    return data;
-  }, ['likes']);
 
   return (
     <main className="max-w-6xl my-2 mx-auto px-4 lg:px-0">
@@ -53,8 +45,6 @@ const EventId = ({ likes, event }) => {
               d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
             />
           </svg>
-
-          <p className="text-xs text-gray-700">{likes.length} Likes</p>
         </span>
         <p className="font-medium text-sm text-slate-600">
           Hosted By: {event.school.name}
@@ -85,14 +75,8 @@ export async function getServerSideProps({ req, params: { id } }) {
     .eq('id', id)
     .single();
 
-  let likes = await supabase
-    .from('like')
-    .select('*')
-    .eq('event', id);
-
   return {
     props: {
-      likes: likes.data,
       event,
     },
   };
