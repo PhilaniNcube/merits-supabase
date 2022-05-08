@@ -2,11 +2,14 @@
 import { LockClosedIcon } from '@heroicons/react/solid';
 import { Fragment, useState } from 'react';
 import { useUser } from '../context/AuthContext';
+import { useRouter } from 'next/router';
 
 export default function SignIn({ setShow }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
+
+  const router = useRouter();
 
   const { signIn } = useUser();
 
@@ -15,20 +18,13 @@ export default function SignIn({ setShow }) {
 
     signIn(email);
 
-    setModalOpen(true);
+    setShow(false);
   };
 
   return (
     <Fragment>
       <div className="bg-gray-200 flex items-center absolute inset-0 justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8 relative isolate">
-          {modalOpen && (
-            <Notification
-              modalOpen={modalOpen}
-              setModalOpen={setModalOpen}
-              setShow={setShow}
-            />
-          )}
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Sign in if you already have an account

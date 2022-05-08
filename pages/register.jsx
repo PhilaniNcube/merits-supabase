@@ -45,6 +45,10 @@ export default function Register() {
       alert(error.message);
       return;
     }
+
+    if (user) {
+      router.push('/settings/profile');
+    }
   };
 
   return (
@@ -124,7 +128,7 @@ export default function Register() {
                     aria-hidden="true"
                   />
                 </span>
-                Sign in
+                Register
               </button>
             </div>
           </form>
