@@ -15,7 +15,6 @@ export default function Register() {
   const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [grade, setGrade] = useState(12);
 
   const router = useRouter();
 
@@ -37,9 +36,8 @@ export default function Register() {
       {
         data: {
           username,
-          firstName,
-          lastName,
-          grade,
+          firstname: firstName,
+          lastname: lastName,
         },
       },
     );
@@ -151,26 +149,6 @@ export default function Register() {
                   name="lastName"
                   type="text"
                   autoComplete="lastName"
-                  required
-                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
-                  placeholder="Last Name"
-                />
-              </div>
-            </div>
-            <div className="rounded-md shadow-sm -space-y-px">
-              <div>
-                <label htmlFor="grade" className="sr-only">
-                  Grade
-                </label>
-                <input
-                  id="grade"
-                  value={grade}
-                  onChange={(e) => setGrade(e.target.value)}
-                  name="grade"
-                  min={7}
-                  max={12}
-                  type="number"
-                  autoComplete="grade"
                   required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
                   placeholder="Last Name"

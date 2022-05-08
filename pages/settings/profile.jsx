@@ -83,7 +83,7 @@ const Profile = () => {
     <div className="px-4 py-2 maxw-6xl mx-auto lg:px-0">
       <header className="border-b-2 pb-1">
         <p className="text-lg font-medium text-slate-700">
-          Username: {profileQuery.data.username}
+          {profileQuery.data.firstname} {profileQuery.data.lastname}
         </p>
       </header>
 
