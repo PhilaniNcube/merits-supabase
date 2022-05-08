@@ -13,7 +13,9 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
-  const [school_id, setSchoolId] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [grade, setGrade] = useState(12);
 
   const router = useRouter();
 
@@ -35,6 +37,9 @@ export default function Register() {
       {
         data: {
           username,
+          firstName,
+          lastName,
+          grade,
         },
       },
     );
@@ -113,6 +118,62 @@ export default function Register() {
                   required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
                   placeholder="Username"
+                />
+              </div>
+            </div>
+            <div className="rounded-md shadow-sm -space-y-px">
+              <div>
+                <label htmlFor="firstName" className="sr-only">
+                  First Name
+                </label>
+                <input
+                  id="firstName"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  name="firstName"
+                  type="text"
+                  autoComplete="firstName"
+                  required
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+                  placeholder="First Name"
+                />
+              </div>
+            </div>
+            <div className="rounded-md shadow-sm -space-y-px">
+              <div>
+                <label htmlFor="lastName" className="sr-only">
+                  Last Name
+                </label>
+                <input
+                  id="lastName"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  name="lastName"
+                  type="text"
+                  autoComplete="lastName"
+                  required
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+                  placeholder="Last Name"
+                />
+              </div>
+            </div>
+            <div className="rounded-md shadow-sm -space-y-px">
+              <div>
+                <label htmlFor="grade" className="sr-only">
+                  Grade
+                </label>
+                <input
+                  id="grade"
+                  value={grade}
+                  onChange={(e) => setGrade(e.target.value)}
+                  name="grade"
+                  min={7}
+                  max={12}
+                  type="number"
+                  autoComplete="grade"
+                  required
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 focus:z-10 sm:text-sm"
+                  placeholder="Last Name"
                 />
               </div>
             </div>
