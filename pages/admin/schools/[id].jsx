@@ -12,11 +12,18 @@ const School = () => {
 
   console.log('router', router.query.id);
 
-  const schoolQuery = useQuery('school', async function() {
-    const school = await getSchool(router.query.id);
+  const schoolQuery = useQuery(
+    'school',
+    async function() {
+      const school = await getSchool(router.query.id);
 
-    return school;
-  });
+      return school;
+    },
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const profilesQuery = useQuery(
     'profiles',
