@@ -6,6 +6,7 @@ import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import getProfiles from '../../../lib/getProfile';
 import { getSchool, getSchools } from '../../../lib/getSchools';
+import AwardMerits from '../../../components/Merits/AwardMerits';
 
 const School = () => {
   const router = useRouter();
@@ -32,6 +33,7 @@ const School = () => {
         .from('profiles')
         .select('*')
         .eq('school_id', router.query.id)
+        .eq('role', 'student')
         .order('username', { ascending: true });
 
       return profiles;
@@ -41,6 +43,8 @@ const School = () => {
       refetchOnWindowFocus: false,
     },
   );
+
+  const profiles = profilesQuery.data;
 
   return (
     <Fragment>
@@ -103,6 +107,12 @@ const School = () => {
         </div>
       </div>
       {/* Card code block end */}
+      <div className="px-2 flex flex-col space-y-6 my-8">
+        {profiles.length > 0 &&
+          profiles.map((profile) => (
+            <AwardMerits profile={profile} key={profile.id} />
+          ))}
+      </div>
     </Fragment>
   );
 };
@@ -129,7 +139,8 @@ export async function getServerSideProps({ req, params: { id } }) {
     let schoolProfiles = await supabase
       .from('profiles')
       .select('*')
-      .eq('school_id', id);
+      .eq('school_id', id)
+      .eq('role', 'student');
 
     return schoolProfiles.data;
   });
