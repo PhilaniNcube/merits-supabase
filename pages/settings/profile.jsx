@@ -81,13 +81,15 @@ const Profile = () => {
 
   return (
     <div className="px-4 py-2 maxw-6xl mx-auto lg:px-0">
-      <header className="border-b-2 pb-1">
-        <p className="text-lg font-medium text-slate-700">
-          {profileQuery.data.firstname} {profileQuery.data.lastname}
-        </p>
+      <header className="">
+        <Suspense fallback={<Loading />}>
+          <p className="text-2xl font-medium text-slate-700">
+            {profileQuery.data.firstname} {profileQuery.data.lastname}
+          </p>
+        </Suspense>
       </header>
 
-      <h1 className="text-xl font-medium text-slate-800 mt-8">
+      <h1 className="text-md font-medium text-slate-800 mt-8">
         Please Update your profile
       </h1>
 

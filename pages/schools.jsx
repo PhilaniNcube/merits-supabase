@@ -63,7 +63,15 @@ const Schools = () => {
 
   return (
     <Fragment>
-      <main className="max-w-6xl mx-auto px-4 lg:px-0 py-4">
+      <main className="max-w-6xl mx-auto px-4 py-4">
+        <div className="my-3 h-36 rounded-xl p-2 shadow-gray-800/40 bg-sky-600 shadow-lg">
+          <h2 className="font-bold text-white text-xl">
+            {schools.length} Schools Signed Up
+          </h2>
+          <p className="text-md text-sky-100 py-2">
+            Search for your school below.
+          </p>
+        </div>
         <Combobox
           onChange={(school) => {
             // Navigate to the school
@@ -119,8 +127,6 @@ const Schools = () => {
             <p className="p-4 text-sm text-gray-400">No schools found...</p>
           )}
         </Combobox>
-
-        <div className="mt-6"></div>
       </main>
     </Fragment>
   );
