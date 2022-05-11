@@ -46,8 +46,6 @@ const Provider = ({ children }) => {
       },
     });
 
-    console.log(user, error);
-
     if (error) {
       alert(error.message);
       return;

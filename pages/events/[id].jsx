@@ -8,8 +8,6 @@ import getLikes from '../../lib/getLikes';
 import { supabase } from '../../utils/supabase';
 
 const EventId = ({ event }) => {
-  console.log({ event });
-
   const { user } = useUser();
 
   return (
@@ -24,27 +22,6 @@ const EventId = ({ event }) => {
       <div className="">
         <span className="flex space-x-2">
           <h1 className="font-bold text-xl text-slate-800">{event.name}</h1>
-          <svg
-            onClick={() => {
-              if (!user) {
-                return;
-              } else {
-                mutation.mutateAsync();
-              }
-            }}
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 cursor-pointer"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={1}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-            />
-          </svg>
         </span>
         <p className="font-medium text-sm text-slate-600">
           Hosted By: {event.school_id.name}

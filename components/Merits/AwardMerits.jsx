@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
+import useUser from '../../context/AuthContext';
 import { supabase } from '../../utils/supabase';
 
 const AwardMerits = ({ profile }) => {
@@ -10,11 +11,15 @@ const AwardMerits = ({ profile }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { data, error } = await supabase
-      .from('merits')
-      .insert([
-        { notes: notes, type: type, points: points, profile_id: profile.id },
-      ]);
+    const { data, error } = await supabase.from('merits').insert([
+      {
+        notes: notes,
+        type: type,
+        points: points,
+        profile_id: profile.id,
+        school_id: profile.school_id,
+      },
+    ]);
 
     if (error) {
       alert(error.message);

@@ -6,6 +6,7 @@ import {
   CogIcon,
   HomeIcon,
   MailIcon,
+  PlusIcon,
 } from '@heroicons/react/solid';
 
 const Footer = () => {
@@ -22,13 +23,13 @@ const Footer = () => {
           <HomeIcon className="w-7 h-7 cursor-pointer" />
         </a>
       </Link>
-      <Link href="/messages">
+      <Link href="/events/add">
         <a
           className={`flex items-center justify-center text-center w-1/4 py-4 ${
-            router.pathname === '/messages' ? 'text-sky-600' : 'text-gray-500'
+            router.pathname === '/events/add' ? 'text-sky-600' : 'text-gray-500'
           }`}
         >
-          <MailIcon className="w-7 h-7 cursor-pointer" />
+          <PlusIcon className="w-7 h-7 cursor-pointer" />
         </a>
       </Link>
       <Link href="/schools">

@@ -28,8 +28,6 @@ const Settings = () => {
     },
   );
 
-  console.log(profileQuery);
-
   const profile = profileQuery.data;
 
   return (
@@ -123,13 +121,15 @@ const Settings = () => {
                   </svg>
                 </button>
                 {show && (
-                  <Link href="/settings/profile" passHref>
-                    <div className="dropdown-content bg-white shadow w-24 absolute z-30 right-0 mr-6  -ml-16 lg:-ml-10 xl:ml-0">
-                      <div className="text-xs w-full hover:bg-indigo-700 py-4 px-4 cursor-pointer hover:text-white">
-                        <p>Edit Profile</p>
+                  <Fragment>
+                    <Link href="/settings/profile" passHref>
+                      <div className="dropdown-content bg-white shadow w-24 absolute z-30 right-0 mr-6  -ml-16 lg:-ml-10 xl:ml-0">
+                        <div className="text-xs w-full hover:bg-indigo-700 py-4 px-4 cursor-pointer hover:text-white">
+                          <p>Edit Profile</p>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
+                    </Link>
+                  </Fragment>
                 )}
               </div>
             </div>
@@ -150,8 +150,6 @@ export async function getServerSideProps({ req }) {
   supabase.auth.session = () => ({ access_token: token });
 
   const queryClient = await new QueryClient();
-
-  console.log(user);
 
   await queryClient.prefetchQuery('profile', async () => {
     let profile = await supabase

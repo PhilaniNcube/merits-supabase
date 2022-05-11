@@ -8,8 +8,6 @@ import { getSchool, getSchools } from '../../lib/getSchools';
 const School = ({ id }) => {
   const router = useRouter();
 
-  console.log(router.query.id);
-
   const schoolQuery = useQuery(
     'school',
     async function() {
@@ -46,14 +44,30 @@ const School = ({ id }) => {
         .from('event')
         .select('*')
         .eq('school_id', router.query.id);
-
-      console.log(schoolEvents);
     },
     {
       refetchOnMount: false,
       refetchOnWindowFocus: false,
     },
   );
+
+  const meritsQuery = useQuery(
+    'merits',
+    async function() {
+      let { data: merits, error } = await supabase
+        .from('merits')
+        .select('points');
+    },
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
+  );
+
+  const totalMerits = meritsQuery.data.reduce((sum, value) => {
+    sum += value.points;
+    return sum;
+  }, 0);
 
   const school = schoolQuery.data;
   const profiles = schoolProfiles.data;
@@ -149,7 +163,7 @@ const School = ({ id }) => {
                 </div>
                 <div className="pl-4">
                   <p className="w-11 text-lg font-semibold leading-none text-gray-800">
-                    9745
+                    {totalMerits}
                   </p>
                   <p className="text-xs leading-3 text-gray-500 pt-2 ">
                     Total Merits Earned
@@ -172,8 +186,6 @@ export async function getServerSideProps({ req, params: { id } }) {
   supabase.auth.session = () => ({ access_token: token });
 
   const queryClient = await new QueryClient();
-
-  console.log(user);
 
   await queryClient.prefetchQuery('school', async function() {
     let school = await supabase
@@ -217,6 +229,14 @@ export async function getServerSideProps({ req, params: { id } }) {
     let profiles = await supabase.from('profiles').select('*');
 
     return profiles.data;
+  });
+
+  await queryClient.prefetchQuery('merits', async () => {
+    let { data: merits, error } = await supabase
+      .from('merits')
+      .select('points');
+
+    return merits;
   });
 
   return {

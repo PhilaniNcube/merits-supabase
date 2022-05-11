@@ -143,8 +143,6 @@ export async function getServerSideProps({ req }) {
 
   const queryClient = await new QueryClient();
 
-  console.log(user);
-
   await queryClient.prefetchQuery('schools', getSchools);
 
   await queryClient.prefetchQuery('profiles', async () => {
