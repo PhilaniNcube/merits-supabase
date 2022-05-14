@@ -31,8 +31,9 @@ const Provider = ({ children }) => {
 
     if (error) {
       alert(error.message);
+      return;
     }
-
+    alert('you are now logged in');
     router.push('/');
   };
 

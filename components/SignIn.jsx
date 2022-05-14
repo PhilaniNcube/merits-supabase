@@ -16,7 +16,7 @@ export default function SignIn({ setShow }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    signIn(email);
+    signIn(email, password);
 
     setShow(false);
   };
