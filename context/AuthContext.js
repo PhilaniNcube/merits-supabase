@@ -23,11 +23,13 @@ const Provider = ({ children }) => {
     router.push('/');
   };
 
-  const signIn = (email, password) => {
-    let { user, error } = supabase.auth.signIn({
+  const signIn = async (email, password) => {
+    let { user, error } = await supabase.auth.signIn({
       email,
       password,
     });
+
+    console.log({ user, error });
 
     if (error) {
       alert(error.message);
