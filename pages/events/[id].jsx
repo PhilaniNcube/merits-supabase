@@ -25,7 +25,6 @@ const EventId = () => {
   const { user } = useUser();
 
   const queryClient = useQueryClient();
-  const queryCahce = new QueryCache();
 
   const router = useRouter();
 
@@ -46,20 +45,31 @@ const EventId = () => {
     },
   );
 
-  const commentsQuery = useQuery('comments', async () => {
-    let comments = await supabase
-      .from('comments')
-      .select('*, profile_id(id, username)')
-      .eq('event_id', router.query.id)
-      .order('created_at', { ascending: true });
+  const commentsQuery = useQuery(
+    'comments',
+    async () => {
+      let comments = await supabase
+        .from('comments')
+        .select('*, profile_id(id, username)')
+        .eq('event_id', router.query.id)
+        .order('created_at', { ascending: true });
 
-    return comments.data;
-  });
+      return comments.data;
+    },
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
+  );
 
   const event = eventQuery.data;
   const comments = commentsQuery.data;
 
-  const commentMutation = useMutation(() => createComment(event.id, content));
+  const commentMutation = useMutation(() => createComment(event.id, content), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('comments');
+    },
+  });
 
   const handleCreateComment = async (e) => {
     e.preventDefault();
