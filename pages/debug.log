@@ -5,3 +5,5 @@
 [0508/122124.023:ERROR:registration_protocol_win.cc(106)] CreateFile: The system cannot find the file specified. (0x2)
 [0508/125647.324:ERROR:registration_protocol_win.cc(106)] CreateFile: The system cannot find the file specified. (0x2)
 [0508/125647.781:ERROR:registration_protocol_win.cc(106)] CreateFile: The system cannot find the file specified. (0x2)
+[0528/171655.869:ERROR:registration_protocol_win.cc(111)] WaitNamedPipe: The system cannot find the file specified. (0x2)
+[0528/171655.868:ERROR:registration_protocol_win.cc(134)] TransactNamedPipe: The pipe has been ended. (0x6D)

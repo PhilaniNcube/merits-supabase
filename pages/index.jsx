@@ -28,7 +28,7 @@ const Home = () => {
 
   return (
     <Fragment>
-      <main className="w-full h-full">
+      <main className="w-full h-full my-4">
         <header className="w-full px-2 bg-gradient-to-r from-cyan-500 to-blue-500 py-6">
           <h1 className="text-3xl font-extrabold text-center text-slate-700">
             Join The <span className="text-sky-50">Merits</span> Family
@@ -124,7 +124,7 @@ const Home = () => {
             </span>
           </div>
         </section>
-        <section className="mt-3 w-full px-2">
+        <section className="mt-4 w-full px-2">
           <h2 className="text-gray-800 font-bold text-lg leading-5 mb-3">
             Engage with students from your school and other schools
           </h2>
@@ -137,8 +137,62 @@ const Home = () => {
               className="w-full shadow-lg shadow-black/50 aspect-video rounded-lg"
             />
           </div>
-          <div className="mt-4">
-            <div className="flex space-x-3 items-start"></div>
+          <div className="py-4">
+            <div className="flex space-x-3 items-start px-2 py-2 bg-slate-200 rounded-lg shadow-lg">
+              <div className="text-sky-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-12 w-12"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p className="font-base w-fit font-bold text-gray-800">
+                  Interact with other students
+                </p>
+                <p className="font-medium text-xs text-gray-700">
+                  Get updates on events at your school and other schools around
+                  you. Find out about sports results between your school and
+                  others.
+                </p>
+              </div>
+            </div>
+            <div className="flex mb-4 mt-4 space-x-3 items-start px-2 py-2 bg-slate-200 rounded-lg shadow-lg">
+              <div className="text-sky-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-12 w-12"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p className="font-base  w-fit font-bold text-gray-800">
+                  Sponsored Competitions
+                </p>
+                <p className="font-medium text-xs text-gray-700">
+                  Enter into sponsored competitions by brands and stand a chance
+                  to will by earning as many merits as you can.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
       </main>
