@@ -32,26 +32,25 @@ const Header = ({ title }) => {
         <Suspense>
           <div className="flex space-x-2 items-center">
             {loggedIn ? (
-              <button className="flex bg-red-600 py-2 px-4 rounded space-x-2 items-center">
+              <button
+                onClick={() => signOut()}
+                className="flex bg-red-600 py-2 px-4 rounded space-x-2 items-center"
+              >
                 <Suspense fallback={<Loading />}>
-                  <p className="text-white"></p>
-                  <LogoutIcon
-                    onClick={() => signOut()}
-                    className="h-6 w-6 text-red-50"
-                  />
+                  <p className="text-white">Logout</p>
+                  <LogoutIcon className="h-6 w-6 text-red-50" />
                 </Suspense>
               </button>
             ) : (
               <Suspense>
-                <button
-                  onClick={() => setShow(true)}
-                  className="flex bg-green-500 rounded py-2 px-4 items-center"
-                >
-                  <span className="font-medium text-gray-50">Sign In</span>
-                  <span>
-                    <LoginIcon className="pl-1 h-6 w-6 text-sky-50" />
-                  </span>
-                </button>
+                <Link href="/sign-in" passHref>
+                  <button className="flex bg-green-500 rounded py-2 px-4 items-center">
+                    <span className="font-medium text-gray-50">Sign In</span>
+                    <span>
+                      <LoginIcon className="pl-1 h-6 w-6 text-sky-50" />
+                    </span>
+                  </button>
+                </Link>
               </Suspense>
             )}
           </div>

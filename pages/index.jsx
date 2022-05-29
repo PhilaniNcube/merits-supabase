@@ -59,7 +59,7 @@ const Home = () => {
               alt="school"
               height={1195}
               width={1920}
-              className="w-full shadow-lg shadow-black/50 aspect-video rounded-lg"
+              className="w-full aspect-video rounded-lg"
             />
           </div>
           <h2 className="font-bold mt-3 leading-5 text-lg text-slate-800">
@@ -74,7 +74,7 @@ const Home = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  strokeWidth={2}
+                  strokeWidth={1}
                 >
                   <path d="M12 14l9-5-9-5-9 5 9 5z" />
                   <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
@@ -103,7 +103,7 @@ const Home = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  strokeWidth={2}
+                  strokeWidth={1}
                 >
                   <path
                     strokeLinecap="round"
@@ -128,13 +128,13 @@ const Home = () => {
           <h2 className="text-gray-800 font-bold text-lg leading-5 mb-3">
             Engage with students from your school and other schools
           </h2>
-          <div className="w-full">
+          <div className="w-full rounded-lg overflow-hidden">
             <Image
               src="/images/rugby.jpg"
               alt="sports"
               height={1280}
               width={1920}
-              className="w-full shadow-lg shadow-black/50 aspect-video rounded-lg"
+              className="w-full aspect-video rounded-lg"
             />
           </div>
           <div className="py-4">
@@ -146,7 +146,7 @@ const Home = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  strokeWidth={2}
+                  strokeWidth={1}
                 >
                   <path
                     strokeLinecap="round"
@@ -174,12 +174,12 @@ const Home = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  strokeWidth={2}
+                  strokeWidth={1}
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
                   />
                 </svg>
               </div>

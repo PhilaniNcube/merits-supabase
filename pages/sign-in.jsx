@@ -74,7 +74,7 @@ export default function SignIn() {
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                   <LockClosedIcon
-                    className="h-5 w-5 text-sky-500 group-hover:text-sky-400"
+                    className="h-5 w-5 text-sky-300 group-hover:text-sky-400"
                     aria-hidden="true"
                   />
                 </span>

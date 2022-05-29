@@ -36,7 +36,7 @@ const Provider = ({ children }) => {
       return;
     }
     alert('you are now logged in');
-    router.push('/');
+    router.push('/settings/profile');
   };
 
   const signUp = async (email, password, username, schoolId) => {
