@@ -73,6 +73,22 @@ const Profile = () => {
     },
   );
 
+  const leaderBoardQuery = useQuery(
+    'leaderboard',
+    async () => {
+      let { data: merits, error } = await supabase
+        .from('merits')
+        .select('*')
+        .eq('school_id', profileQuery.data.school_id.id);
+
+      return merits;
+    },
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    },
+  );
+
   const academicMeritsQuery = useQuery(
     'acadmicMerits',
     async () => {
@@ -219,6 +235,29 @@ const Profile = () => {
               </Suspense>
             </p>
           </div>
+        </div>
+        <div className="w-full mt-4">
+          <p className="text-gray-700 font-extrabold text-2xl mt-2">
+            School Leaderboard
+          </p>
+          <table className="min-w-full bg-gray-300 rounded-t-lg">
+            <thead className="rounded-t-lg">
+              <tr className="w-full h-16 rounded-t-lg bg-zinc-800 text-white">
+                <th>
+                  <p>Username</p>
+                </th>
+                <th>
+                  <p>Points</p>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="mt-1">
+              <tr className="h-12">
+                <td className="pl-3">Philani Ncube</td>
+                <td className="pl-3 bg-slate-500">20</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </Suspense>
     </div>
