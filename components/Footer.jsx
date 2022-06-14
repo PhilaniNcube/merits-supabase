@@ -41,10 +41,12 @@ const Footer = () => {
           <AcademicCapIcon className="w-7 h-7 cursor-pointer  " />
         </a>
       </Link>
-      <Link href="/settings">
+      <Link href="/settings/profile">
         <a
           className={`flex items-center justify-center text-center w-1/4 py-4 ${
-            router.pathname === '/settings' ? 'text-sky-600' : 'text-gray-500'
+            router.pathname === '/settings/profile'
+              ? 'text-sky-600'
+              : 'text-gray-500'
           }`}
         >
           <CogIcon className="w-7 h-7 cursor-pointer" />
