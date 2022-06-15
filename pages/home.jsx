@@ -57,7 +57,7 @@ const Home = () => {
               </div>
 
               <div className="w-full mt-3">
-                <p className="text-600 text-md font-medium">
+                <p className="text-gray-600 text-sm font-medium">
                   Make sure you participate in the school merits program and
                   stand a chance to win one of the prizes above if you are in
                   the top 3 Merits Holders
