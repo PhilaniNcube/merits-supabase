@@ -14,10 +14,10 @@ const Footer = () => {
 
   return (
     <footer className="flex border-t bg-slate-200">
-      <Link href="/">
+      <Link href="/home">
         <a
           className={`flex items-center justify-center text-center w-1/4 py-4 ${
-            router.pathname === '/' ? 'text-sky-600' : 'text-gray-500'
+            router.pathname === '/home' ? 'text-sky-600' : 'text-gray-500'
           }`}
         >
           <HomeIcon className="w-7 h-7 cursor-pointer" />
