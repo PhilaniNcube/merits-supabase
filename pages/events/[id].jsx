@@ -111,12 +111,10 @@ const EventId = () => {
         <h2 className="font-medium text-slate-700 text-xl">Comments</h2>
         <ul className="px-3 bg-slate-100 border rounded-lg shadow-inner">
           <Suspense fallback={<Loading />}>
-            {comments.length === 0 ? (
-              <li className="text-sm text-slate-500">
-                No Comments yet. Be the first to comment.
-              </li>
+            {commentsQuery.isLoading ? (
+              <Loading />
             ) : (
-              comments.map((comment) => (
+              comments?.map((comment) => (
                 <li
                   className="text-sm py-2 my-3 text-slate-800 flex flex-col px-2"
                   key={comment.id}
@@ -193,6 +191,14 @@ export async function getServerSideProps({ req, params: { id } }) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
   const token = cookie.parse(req.headers.cookie)['sb-access-token'];
   supabase.auth.session = () => ({ access_token: token });
+
+  if (!user)
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/sign-in',
+      },
+    };
 
   const queryClient = await new QueryClient();
 
