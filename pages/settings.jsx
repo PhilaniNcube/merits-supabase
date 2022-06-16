@@ -146,11 +146,13 @@ const Settings = () => {
             <Combobox
               onChange={async (school) => {
                 // Navigate to the school
-                console.log(school);
+                
                   const { data, error } = await supabase
                     .from('profiles')
                     .update({ school_id: school.id })
                     .eq('id', user.id);
+
+                  console.log({ data, error });
 
                   if (data) {
                     route.push(`/settings/profile`);
