@@ -8,10 +8,12 @@ import { useUser } from '../context/AuthContext';
 import { getSchools } from '../lib/getSchools';
 import { SearchIcon } from '@heroicons/react/outline';
 import { Combobox } from '@headlessui/react';
-import { route } from 'next/dist/server/router';
+import { useRouter } from 'next/router';
 
 const Settings = () => {
   const { user } = useUser();
+
+  const router = useRouter();
 
   const [show, setShow] = useState(false);
   const [query, setQuery] = useState('');
@@ -146,19 +148,19 @@ const Settings = () => {
             <Combobox
               onChange={async (school) => {
                 // Navigate to the school
-                
-                  const { data, error } = await supabase
-                    .from('profiles')
-                    .update({ school_id: school.id })
-                    .eq('id', user.id);
 
-                  console.log({ data, error });
+                const { data, error } = await supabase
+                  .from('profiles')
+                  .update({ school_id: school.id })
+                  .eq('id', user.id);
 
-                  if (data) {
-                    route.push(`/settings/profile`);
-                  } else {
-                    alert('Could Not Find Profile');
-                  }
+                console.log({ data, error });
+
+                if (data) {
+                  router.push(`/settings/profile`);
+                } else {
+                  alert('Could Not Find Profile');
+                }
               }}
               as="div"
               className="relative max-w-xl mx-auto rounded-xl bg-white shadow-2xl ring ring-black/5 divide-y overflow-hidden"
