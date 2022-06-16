@@ -5,11 +5,22 @@ import cookie from 'cookie';
 import { supabase } from '../utils/supabase';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { useUser } from '../context/AuthContext';
+import { getSchools } from '../lib/getSchools';
+import { SearchIcon } from '@heroicons/react/outline';
+import { Combobox } from '@headlessui/react';
+import { route } from 'next/dist/server/router';
 
 const Settings = () => {
   const { user } = useUser();
 
   const [show, setShow] = useState(false);
+
+  const schoolsQuery = useQuery('schools', getSchools, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
+
+  const schools = schoolsQuery.data;
 
   const profileQuery = useQuery(
     'profile',
@@ -120,19 +131,75 @@ const Settings = () => {
                     />
                   </svg>
                 </button>
-                {show && (
-                  <Fragment>
-                    <Link href="/settings/profile" passHref>
-                      <div className="dropdown-content bg-white shadow w-24 absolute z-30 right-0 mr-6  -ml-16 lg:-ml-10 xl:ml-0">
-                        <div className="text-xs w-full hover:bg-indigo-700 py-4 px-4 cursor-pointer hover:text-white">
-                          <p>Edit Profile</p>
-                        </div>
-                      </div>
-                    </Link>
-                  </Fragment>
-                )}
               </div>
             </div>
+
+            <p className="text-md text-sky-100 py-2">Select Your School</p>
+
+            <Combobox
+              onChange={async (school) => {
+                // Navigate to the school
+                const { data, error } = await supabase
+                  .from('profiles')
+                  .update({ school_id: school.id })
+                  .eq('id', user.id);
+
+                if (data) {
+                  route.push(`/settings/profile`);
+                } else {
+                  alert('Could Not Find Profile');
+                }
+              }}
+              as="div"
+              className="relative max-w-xl mx-auto rounded-xl bg-white shadow-2xl ring ring-black/5 divide-y overflow-hidden"
+            >
+              <div className="flex items-center px-4">
+                <SearchIcon className="h-6 w-6 text-slate-500" />
+                <Combobox.Input
+                  onChange={(event) => {
+                    //Handle search logic
+                    setQuery(event.target.value);
+                  }}
+                  className="w-full bg-transparent border-0  focus:outline-none focus:ring-0 text-base focus-ring-0 text-gray-700 placeholder-gray-400 h-12"
+                  placeholder="Search for your school..."
+                />
+              </div>
+
+              {filteredSchools.length > 0 && (
+                <Combobox.Options className="py-4 text-sm max-h-56 overflow-y-auto">
+                  {filteredSchools.map((school) => (
+                    <Combobox.Option key={school.id} value={school}>
+                      {({ active }) => (
+                        <div
+                          className={`px-4 py-2 space-x-2 ${
+                            active ? 'bg-sky-600' : 'bg-white'
+                          } `}
+                        >
+                          <span
+                            className={`font-medium ${
+                              active ? 'text-white' : 'text-gray-900'
+                            }`}
+                          >
+                            {school.name}
+                          </span>
+                          <span
+                            className={`${
+                              active ? 'text-slate-100' : 'text-gray-400'
+                            }`}
+                          >
+                            {school.city}
+                          </span>
+                        </div>
+                      )}
+                    </Combobox.Option>
+                  ))}
+                </Combobox.Options>
+              )}
+
+              {query && filteredSchools.length === 0 && (
+                <p className="p-4 text-sm text-gray-400">No schools found...</p>
+              )}
+            </Combobox>
           </div>
         </div>
       </div>
@@ -150,6 +217,8 @@ export async function getServerSideProps({ req }) {
   supabase.auth.session = () => ({ access_token: token });
 
   const queryClient = await new QueryClient();
+
+  await queryClient.prefetchQuery('schools', getSchools);
 
   await queryClient.prefetchQuery('profile', async () => {
     let profile = await supabase
