@@ -50,7 +50,7 @@ export default function Register() {
     }
 
     if (user) {
-      router.push('/settings/profile');
+      router.push('/settings');
     }
   };
 

@@ -39,13 +39,12 @@ const Provider = ({ children }) => {
     router.push('/home');
   };
 
-  const signUp = async (email, password, username, schoolId) => {
+  const signUp = async (email, password, username) => {
     let { user, error } = await supabase.auth.signUp({
       email,
       password,
       data: {
         username,
-        school_id: schoolId,
       },
     });
 
