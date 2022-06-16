@@ -180,22 +180,7 @@ const Settings = () => {
               {filteredSchools.length > 0 && (
                 <Combobox.Options className="py-4 text-sm max-h-56 overflow-y-auto">
                   {filteredSchools.map((school) => (
-                    <Combobox.Option
-                      key={school.id}
-                      value={school}
-                      onClick={async (school) => {
-                        const { data, error } = await supabase
-                          .from('profiles')
-                          .update({ school_id: school.id })
-                          .eq('id', user.id);
-
-                        if (data) {
-                          route.push(`/settings/profile`);
-                        } else {
-                          alert('Could Not Find Profile');
-                        }
-                      }}
-                    >
+                    <Combobox.Option key={school.id} value={school}>
                       {({ active }) => (
                         <div
                           className={`px-4 py-2 space-x-2 ${
