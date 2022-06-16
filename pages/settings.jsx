@@ -141,21 +141,12 @@ const Settings = () => {
               </div>
             </div>
 
-            <p className="text-md text-sky-100 py-2">Select Your School</p>
+            <p className="text-md text-sky-600 py-2">Select Your School</p>
 
             <Combobox
               onChange={async (school) => {
                 // Navigate to the school
-                const { data, error } = await supabase
-                  .from('profiles')
-                  .update({ school_id: school.id })
-                  .eq('id', user.id);
-
-                if (data) {
-                  route.push(`/settings/profile`);
-                } else {
-                  alert('Could Not Find Profile');
-                }
+                console.log(school);
               }}
               as="div"
               className="relative max-w-xl mx-auto rounded-xl bg-white shadow-2xl ring ring-black/5 divide-y overflow-hidden"
@@ -163,7 +154,7 @@ const Settings = () => {
               <div className="flex items-center px-4">
                 <SearchIcon className="h-6 w-6 text-slate-500" />
                 <Combobox.Input
-                  onChange={(event) => {
+                  onChange={async (event) => {
                     //Handle search logic
                     setQuery(event.target.value);
                   }}
@@ -175,7 +166,22 @@ const Settings = () => {
               {filteredSchools.length > 0 && (
                 <Combobox.Options className="py-4 text-sm max-h-56 overflow-y-auto">
                   {filteredSchools.map((school) => (
-                    <Combobox.Option key={school.id} value={school}>
+                    <Combobox.Option
+                      key={school.id}
+                      value={school}
+                      onClick={async (school) => {
+                        const { data, error } = await supabase
+                          .from('profiles')
+                          .update({ school_id: school.id })
+                          .eq('id', user.id);
+
+                        if (data) {
+                          route.push(`/settings/profile`);
+                        } else {
+                          alert('Could Not Find Profile');
+                        }
+                      }}
+                    >
                       {({ active }) => (
                         <div
                           className={`px-4 py-2 space-x-2 ${
