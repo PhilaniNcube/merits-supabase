@@ -192,13 +192,7 @@ export async function getServerSideProps({ req, params: { id } }) {
   const token = cookie.parse(req.headers.cookie)['sb-access-token'];
   supabase.auth.session = () => ({ access_token: token });
 
-  if (!user)
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/sign-in',
-      },
-    };
+
 
   const queryClient = await new QueryClient();
 
