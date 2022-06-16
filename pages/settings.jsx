@@ -147,6 +147,16 @@ const Settings = () => {
               onChange={async (school) => {
                 // Navigate to the school
                 console.log(school);
+                  const { data, error } = await supabase
+                    .from('profiles')
+                    .update({ school_id: school.id })
+                    .eq('id', user.id);
+
+                  if (data) {
+                    route.push(`/settings/profile`);
+                  } else {
+                    alert('Could Not Find Profile');
+                  }
               }}
               as="div"
               className="relative max-w-xl mx-auto rounded-xl bg-white shadow-2xl ring ring-black/5 divide-y overflow-hidden"
