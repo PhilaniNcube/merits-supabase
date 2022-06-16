@@ -14,6 +14,7 @@ const Settings = () => {
   const { user } = useUser();
 
   const [show, setShow] = useState(false);
+  const [query, setQuery] = useState('');
 
   const schoolsQuery = useQuery('schools', getSchools, {
     refetchOnMount: false,
@@ -38,6 +39,12 @@ const Settings = () => {
       refetchOnWindowFocus: false,
     },
   );
+
+  const filteredSchools = query
+    ? schools.filter((school) =>
+        school.name.toLowerCase().includes(query.toLowerCase()),
+      )
+    : [];
 
   const profile = profileQuery.data;
 
