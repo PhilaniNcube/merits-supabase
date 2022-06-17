@@ -20,28 +20,6 @@ const Profile = () => {
 
   console.log(user);
 
-  const [loading, setLoading] = useState(false);
-
-  const router = useRouter();
-
-  const [school, setSchool] = useState('');
-  const [username, setUsername] = useState('');
-  const [schools, setSchools] = useState([]);
-
-  const schoolsQuery = useQuery('schools', getSchools, {
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
-
-  useEffect(() => {
-    startTransition(() => {
-      if (schoolsQuery.status === 'success') {
-        setSchools(schoolsQuery.data);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const profileQuery = useQuery(
     'profile',
     async () => {
@@ -58,70 +36,6 @@ const Profile = () => {
       refetchOnWindowFocus: false,
     },
   );
-
-  const sportsMeritsQuery = useQuery(
-    'sportsMerits',
-    async () => {
-      let { data, error } = await supabase.rpc('get_sports_merits');
-
-      console.log({ data, error });
-
-      return data;
-    },
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-    },
-  );
-
-  const academicMeritsQuery = useQuery(
-    'acadmicMerits',
-    async () => {
-      let { data, error } = await supabase.rpc('get_academic_merits');
-
-      return data;
-    },
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-    },
-  );
-
-  const socialMeritsQuery = useQuery(
-    'socialMerits',
-    async () => {
-      let { data, error } = await supabase.rpc('get_social_merits');
-
-      return data;
-    },
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-    },
-  );
-
-  const handleSubmit = async (e) => {
-    setLoading(true);
-    e.preventDefault();
-
-    const { data, error } = await supabase
-      .from('profiles')
-      .update({ school_id: school })
-      .eq('id', profileQuery.data.id);
-
-    if (error) {
-      alert(error.message);
-      setLoading(false);
-      return;
-    }
-
-    if (data) {
-      console.log(data);
-      alert('Updated profile successfully');
-      setLoading(false);
-      router.push('/');
-    }
-  };
 
   return (
     <div className="px-4 py-2 maxw-6xl mx-auto lg:px-0">

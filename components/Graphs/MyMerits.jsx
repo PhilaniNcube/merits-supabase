@@ -1,13 +1,21 @@
-import React, { Suspense, useEffect, useRef } from 'react';
+import React, { Fragment, Suspense, useEffect, useRef } from 'react';
 import { useQuery } from 'react-query';
 import * as d3 from 'd3';
 import { supabase } from '../../utils/supabase';
 import Loading from '../Loading';
 import useMeasure from 'react-use-measure';
 import { svg } from 'd3';
+import { useUser } from '../../context/AuthContext';
+import getTotalMerits from '../../lib/getTotalMerits';
 
 const MyMerits = () => {
   const [ref, { height, width }] = useMeasure();
+
+  const totalMeritsQuery = useQuery('totalMerits', getTotalMerits, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
+
   const mymeritsQuery = useQuery(
     'mymerits',
     async () => {
@@ -37,7 +45,7 @@ const MyMerits = () => {
     const piedata = d3.pie().value((d) => d.count)(mymeritsQuery.data);
     console.log(piedata);
 
-    const arc = d3.arc().innerRadius(50).outerRadius(150);
+    const arc = d3.arc().innerRadius(110).outerRadius(150);
 
     const colors = d3.scaleOrdinal(['#ffaB22', '#134e6f', '#de20e6']);
 
@@ -69,15 +77,31 @@ const MyMerits = () => {
   });
 
   return (
-    <div>
+    <div className="relative">
       <Suspense fallback={<Loading />}>
         <h2 className="text-center text-gray-700 mt-3 font-bold text-2xl mb-4">
           My Merits
         </h2>
+        <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-center items-center">
+          {totalMeritsQuery.isLoading ? (
+            <p className="text-2xl text-gray-700">Loading...</p>
+          ) : totalMeritsQuery.isError ? (
+            <p className="text-2xl text-gray-700">{totalMeritsQuery.error}</p>
+          ) : (
+            totalMeritsQuery.isSuccess && (
+              <span className="flex flex-col items-center justify-center">
+                <p className="font-bold text-5xl text-gray-700">
+                  {totalMeritsQuery.data}
+                </p>
+                <small className="text-sm text-gray-700">Total Merits</small>
+              </span>
+            )
+          )}
+        </div>
         <div
           ref={ref}
           id="chart"
-          className="bg-sky-100 mt-3 h-[450px] shadow-md rounded-lg"
+          className="bg-sky-100 mt-3 h-[450px] shadow-md rounded-lg relative"
         >
           <svg ref={pieChart}></svg>
 
@@ -91,7 +115,7 @@ const MyMerits = () => {
                   ></span>
                   <p className="text-gray-700 font-medium text-sm uppercase">
                     {legend.item} -{' '}
-                    <span className="font-light">{legend.count} points</span>
+                    <span className="font-light">{legend.count} merits</span>
                   </p>
                 </span>
               ))}
