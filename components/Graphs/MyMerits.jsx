@@ -6,7 +6,7 @@ import Loading from '../Loading';
 import useMeasure from 'react-use-measure';
 import { svg } from 'd3';
 import { useUser } from '../../context/AuthContext';
-import getTotalMerits from '../../lib/getTotalMerits';
+import getTotalMerits, { getMyMerits } from '../../lib/getTotalMerits';
 
 const MyMerits = () => {
   const [ref, { height, width }] = useMeasure();
@@ -16,24 +16,10 @@ const MyMerits = () => {
     refetchOnWindowFocus: false,
   });
 
-  const mymeritsQuery = useQuery(
-    'mymerits',
-    async () => {
-      let sports = await supabase.rpc('get_sports_merits');
-      let academic = await supabase.rpc('get_academic_merits');
-      let social = await supabase.rpc('get_social_merits');
-
-      return [
-        { item: 'sports', count: sports.data, color: '#ffaB22' },
-        { item: 'social', count: social.data, color: '#134e6f' },
-        { item: 'academic', count: academic.data, color: '#de20e6' },
-      ];
-    },
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-    },
-  );
+  const mymeritsQuery = useQuery('mymerits', getMyMerits, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   const pieChart = useRef();
 
