@@ -70,7 +70,7 @@ const MyMerits = () => {
         </h2>
         <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-center items-center">
           {totalMeritsQuery.isLoading ? (
-            <p className="text-2xl text-gray-700">Loading...</p>
+            <p className="text-2xl text-gray-700 text-center">Loading...</p>
           ) : totalMeritsQuery.isError ? (
             <p className="text-2xl text-gray-700">{totalMeritsQuery.error}</p>
           ) : (
