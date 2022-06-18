@@ -101,7 +101,9 @@ const MyMerits = () => {
                   ></span>
                   <p className="text-gray-700 font-medium text-sm uppercase">
                     {legend.item} -{' '}
-                    <span className="font-light">{legend.count} merits</span>
+                    <span className="font-light">
+                      {legend.count === null ? '0' : `${legend.count} merits`}
+                    </span>
                   </p>
                 </span>
               ))}
