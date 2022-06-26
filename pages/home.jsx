@@ -8,6 +8,7 @@ import EventsFeed from '../components/Events/EventsFeed';
 import { getEvents } from '../lib/getEvents';
 
 import { dehydrate, QueryClient, useQuery } from 'react-query';
+import MyMerits from '../components/Graphs/MyMerits';
 
 const Home = () => {
   const { data, isLoading, isSuccess, isError } = useCompetions();
@@ -21,6 +22,7 @@ const Home = () => {
   return (
     <Fragment>
       <div className="px-4 py-2">
+      <MyMerits />
         <Suspense fallback={'Loading..'}>
           {isSuccess && (
             <div className="w-full mb-3">
