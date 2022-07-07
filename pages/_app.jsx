@@ -36,7 +36,7 @@ export default function MyApp({ Component, pageProps }) {
                     <HeaderComponent title={Component.headerTitle} />
                   </Suspense>
 
-                  <main className="flex-1 overflow-y-scroll">
+                  <main className="flex-1 h-[100vh] overflow-y-scroll">
                     <Suspense fallback={<Loading />}>
                       <Component {...pageProps} />
                     </Suspense>
