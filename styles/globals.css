@@ -4,12 +4,15 @@
 
 
 html {
+  height: 100vh;
   height: -webkit-fill-available;
 }
 
 
 body {
   height: 100vh;
+  @apply flex flex-col;
+  height: -webkit-fill-available;
 }
 
 /* Avoid Chrome to see Safari hack */
