@@ -7,6 +7,7 @@ import Sidebar from '../components/Sidebar';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Div100vh from 'react-div-100vh'
 
 const HeaderComponent = lazy(() => import('../components/Header'));
 
@@ -36,11 +37,13 @@ export default function MyApp({ Component, pageProps }) {
                     <HeaderComponent title={Component.headerTitle} />
                   </Suspense>
 
-                  <main className="flex-1 h-[calc(100vh - 10vh)] md:h-[100vh] overflow-y-scroll">
-                    <Suspense fallback={<Loading />}>
-                      <Component {...pageProps} />
-                    </Suspense>
+                  <Div100vh>
+                  <main className="flex-1 h-[100vh] overflow-y-scroll">
+                  <Suspense fallback={<Loading />}>
+                  <Component {...pageProps} />
+                  </Suspense>
                   </main>
+                  </Div100vh>
                   <Footer />
 
               </Suspense>
