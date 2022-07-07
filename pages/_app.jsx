@@ -31,7 +31,7 @@ export default function MyApp({ Component, pageProps }) {
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <Suspense fallback={<Loading />}>
-                <div className="flex flex-col h-[100vh]">
+
                   <Suspense fallback={<Loading />}>
                     <HeaderComponent title={Component.headerTitle} />
                   </Suspense>
@@ -42,7 +42,7 @@ export default function MyApp({ Component, pageProps }) {
                     </Suspense>
                   </main>
                   <Footer />
-                </div>
+
               </Suspense>
               <ReactQueryDevtools />
             </Hydrate>
