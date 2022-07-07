@@ -31,7 +31,7 @@ export default function MyApp({ Component, pageProps }) {
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <Suspense fallback={<Loading />}>
-                <div className="flex flex-col h-screen" style={{height: '-webkit-height-available'}}>
+                <div className="flex flex-col h-full">
                   <Suspense fallback={<Loading />}>
                     <HeaderComponent title={Component.headerTitle} />
                   </Suspense>
