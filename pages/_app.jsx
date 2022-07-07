@@ -30,23 +30,23 @@ export default function MyApp({ Component, pageProps }) {
       <AuthProvider>
         <Suspense fallback={<Loading />}>
           <QueryClientProvider client={queryClient}>
-            <Hydrate state={pageProps.dehydratedState}>
+          <Hydrate state={pageProps.dehydratedState}>
+          <Div100vh>
               <Suspense fallback={<Loading />}>
 
                   <Suspense fallback={<Loading />}>
                     <HeaderComponent title={Component.headerTitle} />
                   </Suspense>
 
-                  <Div100vh>
                   <main className="flex-1 h-[100vh] overflow-y-scroll">
                   <Suspense fallback={<Loading />}>
                   <Component {...pageProps} />
                   </Suspense>
                   </main>
-                  </Div100vh>
                   <Footer />
 
-              </Suspense>
+                  </Suspense>
+                  </Div100vh>
               <ReactQueryDevtools />
             </Hydrate>
           </QueryClientProvider>
