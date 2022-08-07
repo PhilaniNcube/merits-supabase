@@ -4,36 +4,28 @@ import Image from "next/future/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const SignIn = () => {
+
+const Reset = () => {
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = Object.fromEntries(
-      new FormData(e.currentTarget)
-    );
-    console.log({ email, password });
+    const { email } = Object.fromEntries(new FormData(e.currentTarget));
+    console.log({ email });
 
-    if (typeof email !== "string" || typeof password !== "string") {
+    if (typeof email !== "string") {
       throw new Error("Please enter a valid data to register");
     }
 
-    const data = await supabaseClient.auth.signIn(
-      { email, password },
-      { redirectTo: "/" }
-    );
+    let { data, error } = await supabaseClient.auth.api.resetPasswordForEmail(email);
 
-    console.log(data);
+    console.log({ data, error });
 
-    if (data.error) {
-      alert("Error: " + data.error.message);
-    } else if (data.user) {
-      alert("Signed In");
-      router.push("/");
-    } else {
-      alert("There was an error");
+    if (data) {
+      alert("Check your email for a password reset link");
     }
   };
+
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -47,7 +39,7 @@ const SignIn = () => {
               alt="Logo"
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Sign In
+              Reset Password
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or{" "}
@@ -71,49 +63,9 @@ const SignIn = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
-              </div>
-
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <Link href="/password-reset">
-                  <a className="font-medium text-indigo-600 hover:text-indigo-500">
-                    Forgot your password?
-                  </a>
-                </Link>
               </div>
             </div>
 
@@ -128,7 +80,7 @@ const SignIn = () => {
                     aria-hidden="true"
                   />
                 </span>
-                Sign In
+                Reset
               </button>
             </div>
           </form>
@@ -138,4 +90,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Reset;

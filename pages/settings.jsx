@@ -4,11 +4,12 @@ import Link from 'next/link';
 import cookie from 'cookie';
 import { supabase } from '../utils/supabase';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
-import { useUser } from '../context/AuthContext';
 import { getSchools } from '../lib/getSchools';
 import { SearchIcon } from '@heroicons/react/outline';
 import { Combobox } from '@headlessui/react';
 import { useRouter } from 'next/router';
+import { useUser } from '@supabase/auth-helpers-react';
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const Settings = () => {
   const { user } = useUser();
@@ -51,7 +52,7 @@ const Settings = () => {
   const profile = profileQuery.data;
 
   return (
-    <div className="w-5/6 mx-auto">
+    <div className="w-5/6 mt-24 mx-auto">
       <div className="xl:w-3/4 2xl:w-4/5 w-full">
         <div className="bg-white">
           <div className="relative mt-8 border rounded-xl shadow-lg shadow-slate-900/30 p-3 sm:p-5 2xl:flex items-center justify-between">
@@ -75,9 +76,7 @@ const Settings = () => {
             <div className="sm:flex items-center lg:items-start xl:items-center mt-4 2xl:mt-0">
               <div className="md:flex items-center">
                 <div className="sm:flex items-center ">
-                  <div className="whitespace-nowrap shadow w-48 sm:w-auto p-3 bg-gray-100 rounded text-xs md:text-sm font-medium leading-4 text-gray-600">
-                    Email: {user.email}
-                  </div>
+
                   <div className="p-3 bg-gray-100 w-48 shadow sm:w-auto rounded text-xs md:text-sm font-medium leading-4 text-gray-600 sm:ml-4 mt-4 sm:mt-0">
                     Role: {profile.role}
                   </div>
@@ -149,10 +148,10 @@ const Settings = () => {
               onChange={async (school) => {
                 // Navigate to the school
 
-                const { data, error } = await supabase
-                  .from('profiles')
+                const { data, error } = await supabaseClient
+                  .from("profiles")
                   .update({ school_id: school.id })
-                  .eq('id', user.id);
+                  .eq("id", user.id);
 
                 console.log({ data, error });
 
@@ -224,19 +223,19 @@ Settings.headerTitle = 'Settings';
 export default Settings;
 
 export async function getServerSideProps({ req }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
+  const { user } = await supabaseClient.auth.api.getUserByCookie(req);
   const token = cookie.parse(req.headers.cookie)['sb-access-token'];
-  supabase.auth.session = () => ({ access_token: token });
+  supabaseClient.auth.session = () => ({ access_token: token });
 
   const queryClient = await new QueryClient();
 
   await queryClient.prefetchQuery('schools', getSchools);
 
   await queryClient.prefetchQuery('profile', async () => {
-    let profile = await supabase
-      .from('profiles')
-      .select('*, school_id(id, name, streetAddress, city)')
-      .eq('id', user.id)
+    let profile = await supabaseClient
+      .from("profiles")
+      .select("*, school_id(id, name, streetAddress, city)")
+      .eq("id", user.id)
       .single();
 
     return profile.data;

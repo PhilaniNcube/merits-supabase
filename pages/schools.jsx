@@ -4,9 +4,9 @@ import { Fragment, useState } from 'react';
 import { useRouter } from 'next/router';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { SearchIcon } from '@heroicons/react/outline';
-import { useUser } from '../context/AuthContext';
 import { getSchools } from '../lib/getSchools';
-import { supabase } from '../utils/supabase';
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useUser } from '@supabase/auth-helpers-react';
 
 const Schools = () => {
   const { user } = useUser();
@@ -24,10 +24,10 @@ const Schools = () => {
   const profileQuery = useQuery(
     'profile',
     async () => {
-      let profile = await supabase
-        .from('profiles')
-        .select('*, school_id(id, name, streetAddress, city)')
-        .eq('id', user.id)
+      let profile = await supabaseClient
+        .from("profiles")
+        .select("*, school_id(id, name, streetAddress, city)")
+        .eq("id", user.id)
         .single();
 
       return profile.data;
@@ -43,7 +43,7 @@ const Schools = () => {
   const profilesQuery = useQuery(
     'profiles',
     async () => {
-      let profile = await supabase.from('profiles').select('*');
+      let profile = await supabaseClient.from("profiles").select("*");
 
       return profile.data;
     },
@@ -63,8 +63,8 @@ const Schools = () => {
 
   return (
     <Fragment>
-      <main className="max-w-6xl mx-auto px-4 py-4">
-        <div className="my-3 h-36 rounded-xl p-2 shadow-gray-800/40 bg-sky-600 shadow-lg">
+      <main className="max-w-6xl mx-auto px-4 py-24">
+        <div className="my-3 h-36 rounded-xl p-2 shadow-gray-800/40 bg-fuchsia-800">
           <h2 className="font-bold text-white text-xl">
             {schools.length} Schools Signed Up
           </h2>
@@ -137,22 +137,22 @@ Schools.headerTitle = 'Schools';
 export default Schools;
 
 export async function getServerSideProps({ req }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
+  const { user } = await supabaseClient.auth.api.getUserByCookie(req);
   const token = cookie.parse(req.headers.cookie)['sb-access-token'];
-  supabase.auth.session = () => ({ access_token: token });
+  supabaseClient.auth.session = () => ({ access_token: token });
 
   const queryClient = await new QueryClient();
 
   await queryClient.prefetchQuery('schools', getSchools);
 
   await queryClient.prefetchQuery('profiles', async () => {
-    let profiles = await supabase.from('profiles').select('*');
+    let profiles = await supabaseClient.from('profiles').select('*');
 
     return profiles.data;
   });
 
   await queryClient.prefetchQuery('profile', async () => {
-    let profile = await supabase
+    let profile = await supabaseClient
       .from('profiles')
       .select('*, school_id(id, name, streetAddress, city)')
       .eq('id', user.id)
@@ -162,7 +162,7 @@ export async function getServerSideProps({ req }) {
   });
 
   await queryClient.prefetchQuery('profiles', async () => {
-    let profiles = await supabase.from('profiles').select('*');
+    let profiles = await supabaseClient.from('profiles').select('*');
 
     return profiles.data;
   });

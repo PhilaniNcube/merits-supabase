@@ -2,10 +2,7 @@
 import {
   ChatAltIcon,
   EyeIcon,
-  EyeOffIcon,
-  HeartIcon,
   PlusIcon,
-  SaveAsIcon,
 } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { parseISO, format } from 'date-fns';
@@ -13,12 +10,12 @@ import React, { Suspense } from 'react';
 import EventSkeleton from '../Loaders/EventSkeleton';
 import getLikes from '../../lib/getLikes';
 import { useMutation, useQuery } from 'react-query';
-import { useUser } from '../../context/AuthContext';
-import { supabase } from '../../utils/supabase';
+
 import Loading from '../Loading';
+import { useUser } from '@supabase/auth-helpers-react';
 
 const EventsFeed = ({ events }) => {
-  const { user } = useUser();
+  const { user, isLoading, error } = useUser();
 
   return (
     <div>

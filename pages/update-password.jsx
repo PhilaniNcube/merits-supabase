@@ -2,36 +2,29 @@ import { LockClosedIcon } from "@heroicons/react/solid";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/future/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
+const Reset = () => {
+  const router = useRouter();
 
-const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password, last_name, first_name } = Object.fromEntries(
+    const { email, password } = Object.fromEntries(
       new FormData(e.currentTarget)
     );
-    console.log({ email, password, last_name, first_name });
+    console.log({ email, password });
 
-    if (
-      typeof email !== "string" ||
-      typeof password !== "string" ||
-      typeof first_name !== "string" ||
-      typeof last_name !== "string"
-    ) {
+    if (typeof email !== "string" || typeof password !== "string") {
       throw new Error("Please enter a valid data to register");
     }
 
-    const data = await supabaseClient.auth.signUp(
-      { email, password },
-      {
-        data: {
-          first_name,
-          last_name,
-        },
-      }
-    );
+    const data = await supabaseClient.auth.update({ email, password });
 
-    console.log({ data });
+    if (data.error) {
+      alert(data.error.message);
+    } else {
+      router.push("/");
+    }
   };
   return (
     <>
@@ -46,13 +39,13 @@ const Register = () => {
               alt="Logo"
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Register
+              Reset Password
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or{" "}
-              <Link href="/sign-in">
+              <Link href="/register">
                 <a className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Sign in if you already have an account
+                  Register if you don&apos;t already have an account
                 </a>
               </Link>
             </p>
@@ -74,34 +67,7 @@ const Register = () => {
                   placeholder="Email address"
                 />
               </div>
-              <div>
-                <label htmlFor="first_name" className="sr-only">
-                  First Name
-                </label>
-                <input
-                  id="first_name"
-                  name="first_name"
-                  type="text"
-                  autoComplete="first_name"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="First Name"
-                />
-              </div>
-              <div>
-                <label htmlFor="last_name" className="sr-only">
-                  Last Name
-                </label>
-                <input
-                  id="last_name"
-                  name="last_name"
-                  type="text"
-                  autoComplete="last_name"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Last Name"
-                />
-              </div>
+
               <div>
                 <label htmlFor="password" className="sr-only">
                   Password
@@ -135,11 +101,12 @@ const Register = () => {
               </div>
 
               <div className="text-sm">
-                <Link href="/password-reset">
-                  <a className="font-medium text-indigo-600 hover:text-indigo-500">
-                    Forgot your password?
-                  </a>
-                </Link>
+                <a
+                  href="#"
+                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                >
+                  Forgot your password?
+                </a>
               </div>
             </div>
 
@@ -154,7 +121,7 @@ const Register = () => {
                     aria-hidden="true"
                   />
                 </span>
-                Register
+                Reset Password
               </button>
             </div>
           </form>
@@ -164,4 +131,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Reset;

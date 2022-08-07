@@ -7,23 +7,24 @@ import React, {
 } from 'react';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
 import cookie from 'cookie';
-import { useUser } from '../../context/AuthContext';
 import { getProfile } from '../../lib/getProfile';
 import { getSchools } from '../../lib/getSchools';
 import { supabase } from '../../utils/supabase';
 import Loading from '../../components/Loading';
 import { useRouter } from 'next/router';
 import MyMerits from '../../components/Graphs/MyMerits';
+import { supabaseClient } from '@supabase/auth-helpers-nextjs';
+import { useUser } from '@supabase/auth-helpers-react';
 
 const Profile = () => {
-  const { user } = useUser();
+ const { isLoading, user, error } = useUser();
 
   console.log(user);
 
   const profileQuery = useQuery(
     'profile',
     async () => {
-      let { data: profiles, error } = await supabase
+      let { data: profiles, error } = await supabaseClient
         .from('profiles')
         .select('*, school_id(id, name, streetAddress, city)')
         .eq('id', user.id)
@@ -39,20 +40,11 @@ const Profile = () => {
 
   return (
     <div className="px-4 py-2 maxw-6xl mx-auto lg:px-0">
-      <Suspense fallback={<Loading />}>
-        <div className="w-full mt-2 rounded-lg shadow-lg shadow-gray-800/20 p-2 bg-gradient-to-r from-cyan-500 to-blue-500">
-          <p className="text-white font-bold text-2xl">{`${profileQuery.data.firstname} ${profileQuery.data.lastname}`}</p>
 
-          <p className="text-white font-medium text-lg mt-2">
-            {profileQuery.data.school_id.name}
-          </p>
-          <p className="text-white text-md mt-1">
-            {profileQuery.data.school_id.streetAddress}
-          </p>
-        </div>
+
 
         <MyMerits />
-      </Suspense>
+
     </div>
   );
 };
@@ -60,9 +52,9 @@ const Profile = () => {
 export default Profile;
 
 export async function getServerSideProps({ req }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
+  const { user } = await supabaseClient.auth.api.getUserByCookie(req);
   const token = cookie.parse(req.headers.cookie)['sb-access-token'];
-  supabase.auth.session = () => ({ access_token: token });
+  supabaseClient.auth.session = () => ({ access_token: token });
 
   const queryClient = await new QueryClient();
 
@@ -70,7 +62,7 @@ export async function getServerSideProps({ req }) {
 
   await queryClient.prefetchQuery('schools', getSchools);
   await queryClient.prefetchQuery('profile', async () => {
-    let { data: profiles, error } = await supabase
+    let { data: profiles, error } = await supabaseClient
       .from('profiles')
       .select('*, school_id(id, name, streetAddress, city)')
       .eq('id', user.id)

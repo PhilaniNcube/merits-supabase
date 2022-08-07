@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
-import useUser from '../../context/AuthContext';
-import { supabase } from '../../utils/supabase';
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const AwardMerits = ({ profile }) => {
   const [notes, setNotes] = useState('');
@@ -11,7 +10,7 @@ const AwardMerits = ({ profile }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { data, error } = await supabase.from('merits').insert([
+    const { data, error } = await supabaseClient.from("merits").insert([
       {
         notes: notes,
         type: type,

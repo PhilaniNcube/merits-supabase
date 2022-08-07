@@ -21,11 +21,11 @@ const Home = () => {
 
   return (
     <Fragment>
-      <div className="px-4 py-2">
+      <div className="">
       <MyMerits />
         <Suspense fallback={'Loading..'}>
           {isSuccess && (
-            <div className="w-full mb-3">
+            <div className="w-full my-3">
               <div className="w-full relative">
                 <img
                   src={data[0].prize_image}
