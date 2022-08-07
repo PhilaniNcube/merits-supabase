@@ -21,7 +21,8 @@ const Home = () => {
 
   return (
     <Fragment>
-      <div className="">
+      <div className="mt-20">
+
       <MyMerits />
         <Suspense fallback={'Loading..'}>
           {isSuccess && (
