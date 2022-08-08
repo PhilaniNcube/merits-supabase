@@ -1,7 +1,6 @@
 import React, { Fragment, Suspense, useState } from 'react';
 import cookie from 'cookie';
 import { supabase } from '../utils/supabase';
-import Header from '../components/Header';
 import {
   dehydrate,
   QueryClient,

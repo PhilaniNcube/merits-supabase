@@ -7,7 +7,6 @@ import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import Loading from '../components/Loading';
 import Navbar from '../components/Navbar/Navbar';
 
-const HeaderComponent = lazy(() => import('../components/Header'));
 
 // _app.jsx
 
