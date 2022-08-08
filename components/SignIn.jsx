@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { LockClosedIcon } from '@heroicons/react/solid';
 import { Fragment, useState } from 'react';
-import { useUser } from '../context/AuthContext';
 import { useRouter } from 'next/router';
+import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 
 export default function SignIn({ setShow }) {
   const [email, setEmail] = useState('');
@@ -11,12 +11,11 @@ export default function SignIn({ setShow }) {
 
   const router = useRouter();
 
-  const { signIn } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    signIn(email, password);
+    await supabaseClient.auth.signIn(email, password);
 
 
   };

@@ -1,7 +1,6 @@
 import React, { Fragment, lazy, Suspense } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import '../styles/globals.css';
-import AuthProvider from '../context/AuthContext';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { UserProvider } from "@supabase/auth-helpers-react";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";

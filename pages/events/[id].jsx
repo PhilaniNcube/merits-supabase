@@ -13,11 +13,10 @@ import {
   QueryCache,
 } from 'react-query';
 import Loading from '../../components/Loading';
-import { useUser } from '../../context/AuthContext';
-import getLikes from '../../lib/getLikes';
-import { supabase } from '../../utils/supabase';
 import createComment from '../../lib/createComment';
 import { format, formatDistanceToNow, parseISO } from 'date-fns';
+import { useUser } from '@supabase/auth-helpers-react';
+import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 
 const EventId = () => {
   const [content, setContent] = useState('');
@@ -31,7 +30,7 @@ const EventId = () => {
   const eventQuery = useQuery(
     'event',
     async () => {
-      let event = await supabase
+      let event = await supabaseClient
         .from('event')
         .select('*, school_id(id, name, streetAddress, city)')
         .eq('id', router.query.id)
@@ -48,11 +47,11 @@ const EventId = () => {
   const commentsQuery = useQuery(
     'comments',
     async () => {
-      let comments = await supabase
-        .from('comments')
-        .select('*, profile_id(id, username)')
-        .eq('event_id', router.query.id)
-        .order('created_at', { ascending: true });
+      let comments = await supabaseClient
+        .from("comments")
+        .select("*, profile_id(id, username)")
+        .eq("event_id", router.query.id)
+        .order("created_at", { ascending: true });
 
       return comments.data;
     },

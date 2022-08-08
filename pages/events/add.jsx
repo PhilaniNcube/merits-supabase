@@ -1,8 +1,9 @@
+import { supabaseClient } from '@supabase/auth-helpers-nextjs';
+import { useUser } from '@supabase/auth-helpers-react';
 import React, { Fragment, useMemo, useState } from 'react';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
-import { useUser } from '../../context/AuthContext';
 import { getSchools } from '../../lib/getSchools';
-import { supabase } from '../../utils/supabase';
+
 
 const AddEvent = () => {
   const { user } = useUser();
@@ -34,7 +35,7 @@ const AddEvent = () => {
     const fileExt = file.name.split('.').pop();
     const fileName = `${Math.random()}.${fileExt}`;
 
-    const { data, error } = await supabase.storage
+    const { data, error } = await supabaseClient.storage
       .from('images')
       .upload(`${fileName}`, file);
 
@@ -54,7 +55,7 @@ const AddEvent = () => {
     e.preventDefault();
     setLoading(true);
 
-    const { data, error } = await supabase.from('event').insert([
+    const { data, error } = await supabaseClient.from("event").insert([
       {
         name: name,
         description: description,

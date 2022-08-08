@@ -14,7 +14,7 @@ import { getSchools } from '../lib/getSchools';
 import updateProfile from '../lib/updateProfile';
 import Loading from '../components/Loading';
 import { LockClosedIcon } from '@heroicons/react/solid';
-import { useUser } from '../context/AuthContext';
+import { useUser } from '@supabase/auth-helpers-react';
 
 const Account = () => {
   const [firstName, setFirstName] = useState('');
