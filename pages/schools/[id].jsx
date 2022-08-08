@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import cookie from 'cookie';
 import { useRouter } from 'next/router';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
-import { supabase } from '../../utils/supabase';
 import { getSchool, getSchools } from '../../lib/getSchools';
+import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 
 const School = ({ id }) => {
   const router = useRouter();
@@ -11,7 +11,7 @@ const School = ({ id }) => {
   const schoolQuery = useQuery(
     'school',
     async function() {
-      let school = await supabase
+      let school = await supabaseClient
         .from('school')
         .select('*')
         .eq('id', id)
@@ -26,7 +26,7 @@ const School = ({ id }) => {
   const schoolProfiles = useQuery(
     'schoolProfiles',
     async function() {
-      let schoolProfiles = await supabase
+      let schoolProfiles = await supabaseClient
         .from('profiles')
         .select('*')
         .eq('school_id', router.query.id);
@@ -40,7 +40,7 @@ const School = ({ id }) => {
   const schoolEvents = useQuery(
     'schoolEvents',
     async function() {
-      let schoolEvents = await supabase
+      let schoolEvents = await supabaseClient
         .from('event')
         .select('*')
         .eq('school_id', router.query.id);
@@ -54,7 +54,7 @@ const School = ({ id }) => {
   const meritsQuery = useQuery(
     'merits',
     async function() {
-      let { data: merits, error } = await supabase
+      let { data: merits, error } = await supabaseClient
         .from('merits')
         .select('points');
     },
@@ -181,14 +181,14 @@ const School = ({ id }) => {
 export default School;
 
 export async function getServerSideProps({ req, params: { id } }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
+  const { user } = await supabaseClient.auth.api.getUserByCookie(req);
   const token = cookie.parse(req.headers.cookie)['sb-access-token'];
-  supabase.auth.session = () => ({ access_token: token });
+  supabaseClient.auth.session = () => ({ access_token: token });
 
   const queryClient = await new QueryClient();
 
   await queryClient.prefetchQuery('school', async function() {
-    let school = await supabase
+    let school = await supabaseClient
       .from('school')
       .select('*')
       .eq('id', id)
@@ -198,7 +198,7 @@ export async function getServerSideProps({ req, params: { id } }) {
   });
 
   await queryClient.prefetchQuery('schoolProfiles', async () => {
-    let schoolProfiles = await supabase
+    let schoolProfiles = await supabaseClient
       .from('profiles')
       .select('*')
       .eq('school_id', id);
@@ -207,7 +207,7 @@ export async function getServerSideProps({ req, params: { id } }) {
   });
 
   await queryClient.prefetchQuery('schoolEvents', async () => {
-    let schoolProfiles = await supabase
+    let schoolProfiles = await supabaseClient
       .from('event')
       .select('*')
       .eq('school_id', id);
@@ -216,7 +216,7 @@ export async function getServerSideProps({ req, params: { id } }) {
   });
 
   await queryClient.prefetchQuery('profile', async () => {
-    let profile = await supabase
+    let profile = await supabaseClient
       .from('profiles')
       .select('*, school_id(id, name, streetAddress, city)')
       .eq('id', user.id)
@@ -226,13 +226,13 @@ export async function getServerSideProps({ req, params: { id } }) {
   });
 
   await queryClient.prefetchQuery('profiles', async () => {
-    let profiles = await supabase.from('profiles').select('*');
+    let profiles = await supabaseClient.from('profiles').select('*');
 
     return profiles.data;
   });
 
   await queryClient.prefetchQuery('merits', async () => {
-    let { data: merits, error } = await supabase
+    let { data: merits, error } = await supabaseClient
       .from('merits')
       .select('points');
 

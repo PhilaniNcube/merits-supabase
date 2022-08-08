@@ -1,6 +1,5 @@
 import React, { Fragment, Suspense, useState } from 'react';
 import cookie from 'cookie';
-import { supabase } from '../utils/supabase';
 import {
   dehydrate,
   QueryClient,
@@ -14,6 +13,7 @@ import updateProfile from '../lib/updateProfile';
 import Loading from '../components/Loading';
 import { LockClosedIcon } from '@heroicons/react/solid';
 import { useUser } from '@supabase/auth-helpers-react';
+import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 
 const Account = () => {
   const [firstName, setFirstName] = useState('');
@@ -26,7 +26,7 @@ const Account = () => {
   const { user } = useUser();
 
   const mutation = useMutation(async () => {
-    return await supabase
+    return await supabaseClient
       .from('user')
       .update({
         firstName: firstName,
@@ -172,9 +172,9 @@ const Account = () => {
 export default Account;
 
 export async function getServerSideProps({ req }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
+  const { user } = await supabaseClient.auth.api.getUserByCookie(req);
   const token = cookie.parse(req.headers.cookie)['sb-access-token'];
-  supabase.auth.session = () => ({ access_token: token });
+  supabaseClient.auth.session = () => ({ access_token: token });
 
   const queryClient = await new QueryClient();
 

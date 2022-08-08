@@ -2,7 +2,6 @@
 import React, { Fragment, useState } from 'react';
 import Link from 'next/link';
 import cookie from 'cookie';
-import { supabase } from '../utils/supabase';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { getSchools } from '../lib/getSchools';
 import { SearchIcon } from '@heroicons/react/outline';
@@ -29,7 +28,7 @@ const Settings = () => {
   const profileQuery = useQuery(
     'profile',
     async () => {
-      let { data: profiles, error } = await supabase
+      let { data: profiles, error } = await supabaseClient
         .from('profiles')
         .select('*, school_id(id, name, streetAddress, city)')
         .eq('id', user.id)

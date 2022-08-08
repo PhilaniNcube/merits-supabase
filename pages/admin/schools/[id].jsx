@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { Fragment } from 'react';
 import cookie from 'cookie';
-import { supabase } from '../../../utils/supabase';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
 import { useRouter } from 'next/router';
 import getProfiles from '../../../lib/getProfile';
 import { getSchool, getSchools } from '../../../lib/getSchools';
 import AwardMerits from '../../../components/Merits/AwardMerits';
+import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 
 const School = () => {
   const router = useRouter();
@@ -29,7 +29,7 @@ const School = () => {
   const profilesQuery = useQuery(
     'profiles',
     async () => {
-      let { data: profiles, error } = await supabase
+      let { data: profiles, error } = await supabaseClient
         .from('profiles')
         .select('*')
         .eq('school_id', router.query.id)
@@ -121,9 +121,9 @@ const School = () => {
 export default School;
 
 export async function getServerSideProps({ req, params: { id } }) {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
+  const { user } = await supabaseClient.auth.api.getUserByCookie(req);
   const token = cookie.parse(req.headers.cookie)['sb-access-token'];
-  supabase.auth.session = () => ({ access_token: token });
+  supabaseClient.auth.session = () => ({ access_token: token });
 
   const queryClient = await new QueryClient();
 
@@ -137,11 +137,11 @@ export async function getServerSideProps({ req, params: { id } }) {
   });
 
   await queryClient.prefetchQuery('profiles', async () => {
-    let schoolProfiles = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('school_id', id)
-      .eq('role', 'student');
+    let schoolProfiles = await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("school_id", id)
+      .eq("role", "student");
 
     return schoolProfiles.data;
   });
