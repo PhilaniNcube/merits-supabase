@@ -21,6 +21,8 @@ import useLeaderboard, { getLeaderboard } from '../../lib/getLeaderboard';
 import getTotalMerits, { getMyMerits } from '../../lib/getTotalMerits';
 import MyLeaderboard from '../../components/Leaderboards/MyLeaderboard';
 import PrizesCarousel from '../../components/Carousel/PrizesCarousel';
+import { getEvents } from '../../lib/getEvents';
+import EventsFeed from '../../components/Events/EventsFeed';
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -40,6 +42,12 @@ const Profile = () => {
     });
 
     const mymeritsQuery = useQuery("mymerits", getMyMerits, {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    });
+
+
+    const eventQuery = useQuery("events", getEvents, {
       refetchOnMount: false,
       refetchOnWindowFocus: false,
     });
@@ -129,10 +137,13 @@ const Profile = () => {
               "focus:outline-none"
             )}
           >
-           <PrizesCarousel />
+            <PrizesCarousel />
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
+       <div className="mt-4">
+       {eventQuery.isSuccess && <EventsFeed events={eventQuery.data} />}
+       </div>
     </div>
   );
 };
@@ -148,6 +159,7 @@ export async function getServerSideProps({ req }) {
 
   console.log(user);
 
+  await queryClient.prefetchQuery("events", getEvents);
   await queryClient.prefetchQuery('schools', getSchools);
   await queryClient.prefetchQuery('leaderboard', getLeaderboard);
   await queryClient.prefetchQuery('profile', async () => {
