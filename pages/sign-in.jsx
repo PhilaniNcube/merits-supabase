@@ -29,7 +29,7 @@ const SignIn = () => {
       alert("Error: " + data.error.message);
     } else if (data.user) {
       alert("Signed In");
-      router.push("/");
+      router.push("/settings");
     } else {
       alert("There was an error");
     }
