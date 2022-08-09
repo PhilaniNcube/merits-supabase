@@ -18,6 +18,9 @@ import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useUser } from '@supabase/auth-helpers-react';
 import useCompetions from '../../lib/getCompetitons';
 import useLeaderboard, { getLeaderboard } from '../../lib/getLeaderboard';
+import getTotalMerits, { getMyMerits } from '../../lib/getTotalMerits';
+import MyLeaderboard from '../../components/Leaderboards/MyLeaderboard';
+import PrizesCarousel from '../../components/Carousel/PrizesCarousel';
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -29,6 +32,17 @@ const Profile = () => {
  const leaderboardQuery = useQuery('leaderboard', getLeaderboard)
 
   const leaderboards = useLeaderboard();
+
+
+    const totalMeritsQuery = useQuery("totalMerits", getTotalMerits, {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    });
+
+    const mymeritsQuery = useQuery("mymerits", getMyMerits, {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    });
 
 
 
@@ -51,16 +65,16 @@ const Profile = () => {
   );
 
   return (
-    <div className="py-2 max-w-6xl mx-auto my-24 lg:px-0">
+    <div className="py-2 max-w-6xl mx-auto my-24 px-4">
       <Tab.Group>
-        <Tab.List className="flex space-x-1 rounded-xl bg-fuchsia-900 p-1">
+        <Tab.List className="flex space-x-1 rounded-full  bg-fuchsia-900 p-1">
           <Tab
             className={({ selected }) =>
               classNames(
-                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-white",
-                "ring-white text-fuchsia-800 ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                "w-full rounded-full py-2.5 text-sm font-medium leading-5 text-white",
+                "ring-white text-fuchsia-800 ring-opacity-60  focus:outline-none focus:ring-2",
                 selected
-                  ? "bg-white shadow text-white"
+                  ? "bg-white shadow"
                   : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
               )
             }
@@ -70,8 +84,8 @@ const Profile = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-fuchsia-800",
-                "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                "w-full rounded-full py-2.5 text-sm font-medium leading-5 text-fuchsia-800",
+                "font-medium",
                 selected
                   ? "bg-white shadow"
                   : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
@@ -83,8 +97,8 @@ const Profile = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-fuchsia-800",
-                "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
+                "w-full rounded-full py-2.5 text-sm font-medium leading-5 text-fuchsia-800",
+                "font-medium",
                 selected
                   ? "bg-white shadow"
                   : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
@@ -96,24 +110,27 @@ const Profile = () => {
         </Tab.List>
         <Tab.Panels className="mt-2">
           <Tab.Panel
-            className={classNames("rounded-xl bg-white", "focus:outline-none")}
-          >
-
-          </Tab.Panel>
-          <Tab.Panel
             className={classNames(
-              "rounded-xl bg-fuchsia-800",
+              "rounded-xl oveflow-hidden",
               "focus:outline-none"
             )}
           >
-            <Suspense fallback={"Loading.."}></Suspense>
+            <MyMerits
+              myMerits={mymeritsQuery.data}
+              totalMerits={totalMeritsQuery.data}
+            />
+          </Tab.Panel>
+          <Tab.Panel className="mt-2">
+            <MyLeaderboard leaderboard={leaderboards.data} />
           </Tab.Panel>
           <Tab.Panel
             className={classNames(
               "rounded-xl bg-fuchsia-800 px-4 py-6",
               "focus:outline-none"
             )}
-          ></Tab.Panel>
+          >
+           <PrizesCarousel />
+          </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
     </div>

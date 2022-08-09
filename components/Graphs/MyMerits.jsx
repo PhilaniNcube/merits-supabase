@@ -38,7 +38,7 @@ const MyMerits = () => {
       .attr('width', width)
       .attr('height', 500)
       .append('g')
-      .attr('transform', 'translate(190, 200)');
+      .attr('transform', 'translate(175, 200)');
 
     svg
       .append('g')
@@ -58,10 +58,10 @@ const MyMerits = () => {
       .attr('font-size', '14px')
       .attr('color', 'green')
       .text((d) => d.data.item);
-  });
+  }, [mymeritsQuery.data, width]);
 
   return (
-    <div className="relative bg-fuchsia-800 rounded-b-2xl w-full px-4 py-6">
+    <div className="relative bg-fuchsia-900 rounded-2xl w-full px-4 py-6">
 
         <h2 className="text-center text-white mt-3 font-bold text-2xl mb-4">
           My Merits

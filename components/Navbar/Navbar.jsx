@@ -14,7 +14,7 @@ const Navbar = () => {
  console.log(open)
 
   return (
-    <nav className="bg-fuchsia-800 absolute top-0 left-0 right-0">
+    <nav className="bg-fuchsia-900 absolute top-0 left-0 right-0">
       <div className="px-4 py-2 items-center relative flex justify-between">
         {!user ? (
           <Image
