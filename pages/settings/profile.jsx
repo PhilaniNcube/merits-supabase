@@ -73,17 +73,17 @@ const Profile = () => {
   );
 
   return (
-    <div className="py-2 max-w-6xl mx-auto my-24 px-4">
+    <div className="max-w-6xl mx-auto">
       <Tab.Group>
-        <Tab.List className="flex space-x-1 rounded-full  bg-fuchsia-900 p-1">
+        <Tab.List className="flex space-x-1  bg-purple-900 p-1">
           <Tab
             className={({ selected }) =>
               classNames(
-                "w-full rounded-full py-2.5 text-sm font-medium leading-5 text-white",
-                "ring-white text-fuchsia-800 ring-opacity-60  focus:outline-none focus:ring-2",
+                "w-full rounded-full py-2.5 text-sm font-medium leading-5 text-purple-500",
+                "ring-white text-purple-900 ring-opacity-60  focus:outline-none focus:ring-2",
                 selected
-                  ? "bg-white shadow"
-                  : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                  ? "bg-white shadow text-purple-900"
+                  : " hover:bg-white/20 hover:text-white"
               )
             }
           >
@@ -92,11 +92,11 @@ const Profile = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                "w-full rounded-full py-2.5 text-sm font-medium leading-5 text-fuchsia-800",
+                "w-full rounded-full py-2.5 text-sm font-medium leading-5 text-purple-500",
                 "font-medium",
                 selected
-                  ? "bg-white shadow"
-                  : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                  ? "bg-white shadow text-purple-900"
+                  : " hover:bg-white/20 hover:text-white"
               )
             }
           >
@@ -105,21 +105,21 @@ const Profile = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                "w-full rounded-full py-2.5 text-sm font-medium leading-5 text-fuchsia-800",
+                "w-full rounded-full py-2.5 text-sm font-medium leading-5 text-purple-500",
                 "font-medium",
                 selected
-                  ? "bg-white shadow"
-                  : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
+                  ? "bg-white shadow text-purple-900"
+                  : " hover:bg-white/20 hover:text-white"
               )
             }
           >
             Prizes
           </Tab>
         </Tab.List>
-        <Tab.Panels className="mt-2">
+        <Tab.Panels className="">
           <Tab.Panel
             className={classNames(
-              "rounded-xl oveflow-hidden",
+              "rounded-b-xl oveflow-hidden",
               "focus:outline-none"
             )}
           >
@@ -128,12 +128,12 @@ const Profile = () => {
               totalMerits={totalMeritsQuery.data}
             />
           </Tab.Panel>
-          <Tab.Panel className="mt-2">
+          <Tab.Panel className="">
             <MyLeaderboard leaderboard={leaderboards.data} />
           </Tab.Panel>
           <Tab.Panel
             className={classNames(
-              "rounded-xl bg-fuchsia-800 px-4 py-6",
+              "rounded-b-3xl bg-purple-900 px-4 py-6",
               "focus:outline-none"
             )}
           >
@@ -141,9 +141,9 @@ const Profile = () => {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-       <div className="mt-4">
-       {eventQuery.isSuccess && <EventsFeed events={eventQuery.data} />}
-       </div>
+      <div className="mt-4">
+        {eventQuery.isSuccess && <EventsFeed events={eventQuery.data} />}
+      </div>
     </div>
   );
 };

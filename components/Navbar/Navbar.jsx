@@ -14,7 +14,7 @@ const Navbar = () => {
  console.log(open)
 
   return (
-    <nav className="bg-fuchsia-900 absolute top-0 left-0 right-0">
+    <nav className="bg-purple-900 ">
       <div className="px-4 py-2 items-center relative flex justify-between">
         {!user ? (
           <Image
@@ -57,11 +57,7 @@ const Navbar = () => {
                       Home
                     </a>
                   </Link>
-                  <Link href="/events">
-                    <a className="text-fuchsia-800 w-full font-medium text-xl hover:bg-fuchsia-100 rounded-lg py-2 px-3">
-                      Events
-                    </a>
-                  </Link>
+
                   <Link href="/schools">
                     <a className="text-fuchsia-800 w-full font-medium text-xl hover:bg-fuchsia-100 rounded-lg py-2 px-3">
                       Schools

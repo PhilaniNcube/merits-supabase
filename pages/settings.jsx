@@ -58,7 +58,7 @@ const Settings = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <img
-                  className="w-20 h-20 shadow rounded-full"
+                  className="w-20 h-20 bg-pruple-900 shadow rounded-full"
                   src="/images/avatar.png"
                   alt="avatar"
                 />
@@ -95,7 +95,7 @@ const Settings = () => {
                 {profile.role === 'teacher' && (
                   <Link href={`admin/schools/${profile.school_id.id}`} passHref>
                     <div className="flex flex-col items-start sm:flex-row sm:items-center mt-4 md:mt-0">
-                      <button className="flex justify-center space-x-2 p-3 bg-sky-600 shadow rounded text-sm font-medium leading-4 cursor-pointer text-gray-50 md:ml-4 w-48 sm:w-auto text-center">
+                      <button className="flex justify-center space-x-2 p-3 bg-purple-900 shadow rounded text-sm font-medium leading-4 cursor-pointer text-gray-50 md:ml-4 w-48 sm:w-auto text-center">
                         Award Merits
                       </button>
                     </div>
@@ -141,7 +141,7 @@ const Settings = () => {
               </div>
             </div>
 
-            <p className="text-md text-sky-600 py-2">Select Your School</p>
+            <p className="text-md text-purple-900 py-2">Select Your School</p>
 
             <Combobox
               onChange={async (school) => {
@@ -182,7 +182,7 @@ const Settings = () => {
                       {({ active }) => (
                         <div
                           className={`px-4 py-2 space-x-2 ${
-                            active ? 'bg-sky-600' : 'bg-white'
+                            active ? 'bg-purple-900' : 'bg-white'
                           } `}
                         >
                           <span

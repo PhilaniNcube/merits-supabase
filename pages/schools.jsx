@@ -63,8 +63,8 @@ const Schools = () => {
 
   return (
     <Fragment>
-      <main className="max-w-6xl mx-auto px-4 py-24">
-        <div className="my-3 h-36 rounded-xl p-2 shadow-gray-800/40 bg-fuchsia-800">
+      <main className="max-w-6xl mx-auto">
+        <div className="mb-3 py-8 rounded-b-xl p-2 shadow-gray-800/40 bg-purple-900">
           <h2 className="font-bold text-white text-xl">
             {schools.length} Schools Signed Up
           </h2>

@@ -20,14 +20,14 @@ const Home = () => {
 
   return (
     <Fragment>
-      <header className="bg-gradient-to-b py-20 from-fuchsia-800 via-violet-900 to-gray-900 rounded-b-2xl flex flex-col items-center justify-center">
+      <header className="bg-purple-900 pb-8 rounded-b-2xl flex flex-col items-center justify-center">
         <div className="relative w-full flex flex-col justify-center items-center mb-4">
           <Image
             src="/images/merits-logo.png"
             width={277}
             height={260}
             alt="logo"
-            className="w-[130px] object-cover"
+            className="w-[130px] mt-10 object-cover"
           />
         </div>
         <h1 className="text-yellow-300 text-4xl mt-3 font-bold text-center uppercase">
@@ -46,7 +46,7 @@ const Home = () => {
             </button>
           </Link>
           <Link href="/register" passHref>
-            <button className="border border-white bg-white text-fuschia-800 uppercase rounded-full px-8 py-1">
+            <button className="border border-white bg-white text-purple-900 uppercase rounded-full px-8 py-1">
               Register
             </button>
           </Link>
