@@ -1,24 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
-html {
-  height: 100vh;
-  height: -webkit-fill-available;
-}
-
-
-body {
-  height: 100vh;
-  @apply flex flex-col;
-  height: -webkit-fill-available;
-}
-
-/* Avoid Chrome to see Safari hack */
-@supports (-webkit-touch-callout: none) {
-  body {
-    /* The hack for Safari */
-    height: -webkit-fill-available;
-  }
-}
