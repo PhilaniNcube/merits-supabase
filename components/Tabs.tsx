@@ -1,13 +1,27 @@
 import { useState } from "react";
 import { Tab } from "@headlessui/react";
+import getLeaderboard from "../lib/getLeadeboard";
+import { useQuery } from "@tanstack/react-query";
+import getMyMerits from "../lib/getMyMerits";
 
 function classNames(...classes:string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Tabs() {
+
+
+  const {data:leaderboard, isLoading, isSuccess} = useQuery(['leaderboard'], getLeaderboard)
+
+
+  const myMerits = {
+    academic: 30,
+    sports: 20,
+    social: 15,
+  };
+
   let [categories] = useState({
-    Recent: [
+    MyMerits: [
       {
         id: 1,
         title: "Does drinking coffee make you smarter?",
@@ -23,7 +37,7 @@ export default function Tabs() {
         shareCount: 2,
       },
     ],
-    Popular: [
+    Leaderboard: [
       {
         id: 1,
         title: "Is tech making coffee better or worse?",
@@ -39,7 +53,7 @@ export default function Tabs() {
         shareCount: 12,
       },
     ],
-    Trending: [
+    Prizes: [
       {
         id: 1,
         title: "Ask Me Anything: 10 answers to your questions about coffee",
