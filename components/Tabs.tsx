@@ -112,7 +112,7 @@ let chartData = {
 
                     />
                   )}
-                 <div className="absolute inset-0 flex justify-center items-center text-xs">Total Merits:{totalMerits}</div>
+                 <div className="absolute pointer-events-none inset-0 flex justify-center items-center text-xs">Total Merits:{totalMerits}</div>
             </div>
           </Tab.Panel>
           <Tab.Panel
