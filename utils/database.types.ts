@@ -257,6 +257,22 @@ export type Json =
             event_id?: string
           }
         }
-      }
+      },
+
     }
+  }
+
+
+  export type LeaderboardItem = {
+    id: string
+    username: string
+    school_id: string
+    role: string
+    firstname: string
+    lastname: string
+    grade: number
+    avatar_url: string
+    profileid: string
+    points: number
+    avatar: string
   }
