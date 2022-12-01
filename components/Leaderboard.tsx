@@ -26,7 +26,7 @@ const Leaderboard = () => {
               <td className=" pl-2 pr-2 py-5 ">
                 <img
                   src={item.avatar}
-                  className="h-10 w-10 rounded-full border border-white"
+                  className="h-10 w-10 aspect-square rounded-full border border-white"
                 />
               </td>
               <td className="pr-2 py-5 ">{item.username}</td>
