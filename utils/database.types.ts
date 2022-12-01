@@ -157,34 +157,81 @@ export type Json =
             id:string
             created_at:string
             title: string
-            prize:string
-            prize_image:string
-            school_id: string | null
-            end_date: string | null
-            prize_winner: string | null
-            value: number | null
+            school_id: string
+            end_date: string
           }
           Update: {
              id:string
-            created_at?:string
+            created_at:string
             title?: string
-            prize?:string
-            prize_image?:string
-            school_id?: string | null
-            end_date?: string | null
-            prize_winner?: string | null
-            value?: number | null
+            school_id?: string
+            end_date?: string
           }
              Insert: {
-             id:string
-            created_at?:string
+            id:string
+            created_at:string
             title?: string
-            prize?:string
-            prize_image?:string
-            school_id?: string | null
-            end_date?: string | null
-            prize_winner?: string | null
-            value?: number | null
+            school_id?: string
+            end_date?: string
+          }
+        }
+        prizes: {
+          Row: {
+            id:string
+            created_at: string
+            name: string
+            image: string
+            value: number
+            winner: {
+                id: string
+                username: string
+                school_id: string
+                role: string
+                firstname: string
+                lastname: string
+                grade: number
+                avatar_url: string
+            }
+            competiton: string
+            description: string
+          }
+          Update: {
+             id:string
+            created_at: string
+            name?: string
+            image?: string
+            value?: number
+            winner?: {
+                id: string
+                username: string
+                school_id: string
+                role: string
+                firstname: string
+                lastname: string
+                grade: number
+                avatar_url: string
+            }
+            competiton?: string
+            description?: string
+          }
+          Insert : {
+                id:string
+            created_at: string
+            name?: string
+            image?: string
+            value?: number
+            winner?: {
+                id: string
+                username: string
+                school_id: string
+                role: string
+                firstname: string
+                lastname: string
+                grade: number
+                avatar_url: string
+            }
+            competiton?: string
+            description?: string
           }
         }
         comments: {
